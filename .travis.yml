@@ -28,6 +28,8 @@ addons:
     - libusb-dev
     - realpath
     - texinfo
+    - libncurses5-dev
+    - libncursesw5-dev
 
 before_install:
  - source $TRAVIS_BUILD_DIR/.travis/common.sh
@@ -38,6 +40,7 @@ install:
  - ./.travis/install.sh
 
 env:
+  - PACKAGE=crosstool-ng-feedstock/recipe
   # lm32 toolchain
   - PACKAGE=lm32/binutils       CONDA_BUILD_VERSION=2.1.17
   - PACKAGE=lm32/gcc-nostdc     CONDA_BUILD_VERSION=2.1.17
