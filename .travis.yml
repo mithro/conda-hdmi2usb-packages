@@ -14,16 +14,19 @@ addons:
   apt:
     update: true
     packages:
-    - realpath
     - autoconf
     - automake
     - build-essential
     - gperf
+    - help2man
     - libftdi-dev
+    - libncurses5-dev
+    - libncursesw5-dev
     - libudev-dev
     - libudev1
     - libusb-1.0-0-dev
     - libusb-dev
+    - realpath
     - texinfo
 
 before_install:
