@@ -40,6 +40,7 @@ env:
   - PACKAGE=icestorm
   - PACKAGE=iverilog
   - PACKAGE=vtr                 CONDA_CHANNELS=conda-forge
+  - PACKAGE=yosys
 
 script:
   - bash $TRAVIS_BUILD_DIR/.travis/script.sh

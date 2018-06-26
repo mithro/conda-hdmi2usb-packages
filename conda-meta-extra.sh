@@ -5,7 +5,7 @@ cat > recipe_append.yaml <<EOF
 extra:
   maintainers:
     - Tim 'mithro' Ansell <mithro@mithis.com>
-    - HDMI2USB Project - https://hdmi2usb.tv <hdmi2usb@googlegroups.com>
+    - SymbiFlow Project - https://symbiflow.github.io
   travis:
     job_id:  $TRAVIS_JOB_ID
     job_num: $TRAVIS_JOB_NUMBER
