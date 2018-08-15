@@ -7,7 +7,7 @@ if [ x"$TRAVIS" = xtrue ]; then
 	CPU_COUNT=2
 fi
 
-
+export M4=${PREFIX}/bin/m4
 make V=1 CMAKE_PARAMS="-DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON" -j$CPU_COUNT
 make test
 make install
