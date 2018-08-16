@@ -8,13 +8,8 @@
 export  PYTHONWARNINGS=ignore::UserWarning:conda_build.environ
 
 if [ -z "$DATESTR" ]; then
-        if [ -z "$DATESHORT" ]; then
-                export DATESTR=$(date -u +%Y%m%d%H%M%S)
-                echo "Setting long date string of $DATESTR"
-        else
-                export DATESTR=$(date -u +%y%m%d%H%M)
-                echo "Setting short date string of $DATESTR"
-        fi
+	export DATESTR=$(date -u +%y%m%d%H%M)
+	echo "Setting short date string of $DATESTR"
 fi
 if [ -z "$GITREV" ]; then
 	export GITREV="$(git describe --long)"
