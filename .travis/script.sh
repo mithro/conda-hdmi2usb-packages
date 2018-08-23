@@ -14,13 +14,13 @@ end_section "conda.copy"
 $SPACER
 
 start_section "conda.check" "${GREEN}Checking...${NC}"
-conda build --check $PACKAGE
+conda build --check $CONDA_BUILD_ARGS
 end_section "conda.check"
 
 $SPACER
 
 start_section "conda.build" "${GREEN}Building..${NC}"
-$CONDA_PATH/bin/python $TRAVIS_BUILD_DIR/.travis-output.py /tmp/output.log conda build $PACKAGE
+$CONDA_PATH/bin/python $TRAVIS_BUILD_DIR/.travis-output.py /tmp/output.log conda build $CONDA_BUILD_ARGS
 end_section "conda.build"
 
 $SPACER

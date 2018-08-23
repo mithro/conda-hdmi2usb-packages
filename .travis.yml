@@ -40,7 +40,7 @@ install:
  - ./.travis/install.sh
 
 env:
-  - PACKAGE=crosstool-ng-feedstock/recipe
+  - PACKAGE=crosstool-ng-feedstock/recipe       CONDA_BUILD_CONFIG=lm32
 
 script:
   - bash $TRAVIS_BUILD_DIR/.travis/script.sh

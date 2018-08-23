@@ -36,7 +36,7 @@ conda config --show
 end_section "info.conda.config"
 
 start_section "info.conda.package" "Info on ${YELLOW}conda package${NC}"
-conda render $PACKAGE
+conda render $CONDA_BUILD_ARGS
 end_section "info.conda.package"
 
 start_section "info.autotools" "Info on ${YELLOW}autotools${NC}"
