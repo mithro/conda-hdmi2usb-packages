@@ -14,7 +14,7 @@ end_section "conda.copy"
 $SPACER
 
 start_section "conda.check" "${GREEN}Checking...${NC}"
-conda build --check $CONDA_BUILD_ARGS
+conda build --check $CONDA_BUILD_ARGS || true
 end_section "conda.check"
 
 $SPACER
