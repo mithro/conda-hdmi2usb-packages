@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if ! which conda; then
+	export PATH=~/conda/bin:$PATH
+fi
+
 # Disable this warning;
 # xxxx/conda_build/environ.py:377: UserWarning: The environment variable
 #     'TRAVIS' is being passed through with value 0.  If you are splitting
