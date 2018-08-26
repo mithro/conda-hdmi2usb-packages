@@ -20,7 +20,7 @@ end_section "conda.check"
 $SPACER
 
 start_section "conda.download" "${GREEN}Downloading..${NC}"
-$CONDA_PATH/bin/python $TRAVIS_BUILD_DIR/.travis-output.py /tmp/output.log conda build --source $CONDA_BUILD_ARGS
+conda build --source $CONDA_BUILD_ARGS || true
 end_section "conda.download"
 
 $SPACER
