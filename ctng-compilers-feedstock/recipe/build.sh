@@ -32,15 +32,17 @@ if [[ ${ctng_libc} == uClibc ]]; then
   if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/uClibc-${ctng_uClibc}.tar.xz" ]]; then
     ${DOWNLOADER_INSECURE} https://www.uclibc.org/downloads/uClibc-${ctng_uClibc}.tar.xz ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/uClibc-${ctng_uClibc}.tar.xz
   fi
-else
+elif [[ ${ctng_libc} != none ]]; then
   if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/glibc-${gnu}.tar.bz2" ]]; then
     ${DOWNLOADER_INSECURE} https://ftp.gnu.org/gnu/libc/glibc-${gnu}.tar.bz2 ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/glibc-${gnu}.tar.bz2
   fi
 fi
 
 # Necessary because CentOS5.11 is having some certificate issues.
-if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/duma_${ctng_duma//./_}.tar.gz" ]]; then
-  ${DOWNLOADER_INSECURE} http://mirror.opencompute.org/onie/crosstool-NG/duma_${ctng_duma//./_}.tar.gz ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/duma_${ctng_duma//./_}.tar.gz
+if [[ -n ${ctng_duma} ]]; then
+  if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/duma_${ctng_duma//./_}.tar.gz" ]]; then
+    ${DOWNLOADER_INSECURE} http://mirror.opencompute.org/onie/crosstool-NG/duma_${ctng_duma//./_}.tar.gz ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/duma_${ctng_duma//./_}.tar.gz
+  fi
 fi
 
 if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/expat-2.2.0.tar.bz2" ]]; then
@@ -64,6 +66,13 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
     source ${RECIPE_DIR}/write_ctng_config
 
     yes "" | ct-ng ${ctng_sample}
+    cp .config initial.config
+    echo
+    echo "initial config--------------------------"
+    cat .config
+    echo "-----------------------------------"
+    echo
+
     write_ctng_config_before .config
     # Apply some adjustments for conda.
     sed -i.bak "s|# CT_DISABLE_MULTILIB_LIB_OSDIRNAMES is not set|CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y|g" .config
@@ -80,8 +89,24 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
         sed -i.bak "s|CT_STATIC_TOOLCHAIN=y|CT_STATIC_TOOLCHAIN=n|g" .config
         sed -i.bak "s|CT_BUILD=\"x86_64-pc-linux-gnu\"|CT_BUILD=\"x86_64-apple-darwin11\"|g" .config
     fi
+
+    echo
+    echo "before oldconfig--------------------------"
+    cp .config before.config
+    diff -u initial.config before.config || true
+    echo "-----------------------------------"
+    echo
+
     # Now ensure any changes we made above pull in other requirements by running oldconfig.
     yes "" | ct-ng oldconfig
+
+    echo
+    echo "after oldconfig--------------------------"
+    cp .config after.config
+    diff -u before.config after.config || true
+    echo "-----------------------------------"
+    echo
+
     # Now filter out 'things that cause problems'. For example, depending on the base sample, you can end up with
     # two different glibc versions in-play.
     sed -i.bak '/CT_LIBC/d' .config
@@ -97,6 +122,14 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
       fi
     fi
     unset CFLAGS CXXFLAGS LDFLAGS
+
+    echo
+    echo "build------------------------------"
+    cp .config build.config
+    diff -u initial.config build.config || true
+    echo "-----------------------------------"
+    echo
+
     ct-ng build
 fi
 
@@ -106,7 +139,9 @@ if [[ $(uname) == Linux ]]; then
   ulimit -s 32768
 fi
 
-CHOST=$(${SRC_DIR}/.build/*-*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
+ls -l ${SRC_DIR}/.build
+
+CHOST=$(${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
 
 # pushd .build/${CHOST}/build/build-cc-gcc-final
 # make -k check || true

@@ -1,7 +1,7 @@
-{% set commit="lm32" %}
+{% set commit="crosstool-ng-1.23.0-452-ga0eec72d" %}
 
 package:
-  name: crosstool-ng
+  name: crosstool-ng-litex
   version: {{ (GIT_DESCRIBE_TAG or "").split("-")[-1] }}.{{ GIT_BUILD_STR }}
 
 source:

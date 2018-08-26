@@ -1,0 +1,16 @@
+ctng_sample:
+  - lm32-multilib-elf
+ctng_target_platform:
+  - lm32-nostdc
+ctng_binutils:
+  - 2.28
+ctng_gcc:
+  - 5.4.0
+ctng_only_c:
+  - true
+ctng_libc:
+  - none
+ctng_nature:
+  - static
+ctng_gdb:
+  - 8.1

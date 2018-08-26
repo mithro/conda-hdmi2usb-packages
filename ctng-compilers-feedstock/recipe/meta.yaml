@@ -17,11 +17,11 @@ build:
 
 requirements:
   build:
-    - crosstool-ng >=1.23.0.442_g622d059
+    - crosstool-ng-litex >=1.23.0.442_g622d059
   # Need something here so that build does not get installed to a long prefix
   # as that breaks on some systems.
   host:
-    - crosstool-ng >=1.23.0.442_g622d059
+    - crosstool-ng-litex >=1.23.0.442_g622d059
 
 outputs:
   - name: gcc_impl_{{ ctng_target_platform }}
@@ -99,6 +99,7 @@ outputs:
       home: https://gcc.gnu.org/
       license: GPL
 
+  {% if ctng_only_c is not defined %}
   - name: gfortran_impl_{{ ctng_target_platform }}
     script: install-gfortran.sh
     build:
@@ -139,6 +140,7 @@ outputs:
       summary: GNU Fortran Compiler
       home: https://gcc.gnu.org/
       license: GPL
+  {% endif %}
 
   - name: binutils_impl_{{ ctng_target_platform }}
     version: "{{ ctng_binutils }}"
@@ -185,6 +187,7 @@ outputs:
       home: https://gcc.gnu.org/onlinedocs/gccint/Libgcc.html
       license: GPL
 
+  {% if ctng_only_c is not defined %}
   - name: libgfortran-ng
     target: {{ ctng_target_platform }}
     script: install-libgfortran.sh
@@ -198,6 +201,7 @@ outputs:
       summary: The GNU Fortran Runtime Library
       home: https://gcc.gnu.org/
       license: GPL
+  {% endif %}
 
   {% if ctng_gdb is defined %}
   - name: gdb_{{ ctng_target_platform }}
@@ -214,6 +218,7 @@ outputs:
       license: GPL
   {% endif %}
 
+  {% if ctng_duma is defined %}
   - name: duma_{{ ctng_target_platform }}
     target: {{ ctng_target_platform }}
     version: {{ ctng_duma }}
@@ -231,3 +236,4 @@ outputs:
       summary: DUMA is an open-source library to detect buffer overruns and under-runs in C and C++ programs.
       home: http://duma.sourceforge.net/
       license: GPL
+  {% endif %}
