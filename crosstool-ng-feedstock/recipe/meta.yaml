@@ -1,4 +1,4 @@
-{% set commit="crosstool-ng-1.23.0-452-ga0eec72d" %}
+{% set commit="crosstool-ng-1.23.0-454-g8e6fa3e5" %}
 
 package:
   name: crosstool-ng-litex
