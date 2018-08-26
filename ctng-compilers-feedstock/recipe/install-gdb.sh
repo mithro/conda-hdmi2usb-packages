@@ -1,6 +1,6 @@
 set -e -x
 
-CHOST=$(${SRC_DIR}/.build/*-*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
+CHOST=$(${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
 
 # libtool wants to use ranlib that is here
 # for psuedo-cross, depending on the build and host,

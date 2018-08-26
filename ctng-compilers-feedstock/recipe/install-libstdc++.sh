@@ -1,6 +1,6 @@
 set -e -x
 
-CHOST=$(${SRC_DIR}/.build/*-*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
+CHOST=$(${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
 
 # libtool wants to use ranlib that is here, macOS install doesn't grok -t etc
 # .. do we need this scoped over the whole file though?
