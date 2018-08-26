@@ -1,0 +1,16 @@
+ctng_sample:
+  - or1k-multilib-elf
+ctng_target_platform:
+  - or1k-nostdc
+ctng_binutils:
+  - 2.32.1
+ctng_gcc:
+  - 8.1
+ctng_only_c:
+  - true
+ctng_libc:
+  - none
+ctng_nature:
+  - static
+ctng_gdb:
+  - 8.1

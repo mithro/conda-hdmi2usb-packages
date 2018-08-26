@@ -42,6 +42,8 @@ install:
 env:
   - PACKAGE=crosstool-ng-feedstock/recipe
   - PACKAGE=ctng-compilers-feedstock/recipe     CONDA_BUILD_CONFIG=lm32
+  - PACKAGE=ctng-compilers-feedstock/recipe     CONDA_BUILD_CONFIG=or1k
+  - PACKAGE=ctng-compilers-feedstock/recipe     CONDA_BUILD_CONFIG=riscv32
 
 script:
   - bash $TRAVIS_BUILD_DIR/.travis/script.sh
