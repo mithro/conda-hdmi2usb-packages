@@ -1,11 +1,11 @@
-{% set commit="master" %}
+{% set commit="lm32" %}
 
 package:
   name: crosstool-ng
   version: {{ (GIT_DESCRIBE_TAG or "").split("-")[-1] }}.{{ GIT_BUILD_STR }}
 
 source:
-  git_url: https://github.com/continuumio/crosstool-ng.git
+  git_url: https://github.com/mithro/crosstool-ng.git
   git_tag: {{ commit }}
 
 build:
