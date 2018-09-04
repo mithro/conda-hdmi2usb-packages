@@ -1,16 +1,16 @@
 ctng_sample:
   - riscv32-multilib-elf
 ctng_target_platform:
-  - riscv32-nostdc
-ctng_binutils:
-  - 2.32.1
+  - riscv32
 ctng_gcc:
-  - 8.1
-ctng_only_c:
-  - true
+  - 8.2.0
+ctng_langs:
+  - c, c++
 ctng_libc:
-  - none
-ctng_nature:
-  - static
-ctng_gdb:
-  - 8.1
+  - newlib
+ctng_newlib:
+  - 3.0.0.20180226
+#ctng_nature:
+#  - static
+#ctng_gdb:
+#  - 8.1

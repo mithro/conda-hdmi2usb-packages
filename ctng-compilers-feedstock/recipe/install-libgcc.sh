@@ -8,12 +8,14 @@ export PATH=${SRC_DIR}/gcc_built/bin:${SRC_DIR}/.build/${CHOST}/buildtools/bin:$
 
 pushd ${SRC_DIR}/.build/${CHOST}/build/build-cc-gcc-final/
 
-  make -C ${CHOST}/libgcc prefix=${PREFIX} install-shared
+  make -k -C ${CHOST}/libgcc prefix=${PREFIX} install-shared || true
 
   mkdir -p ${PREFIX}/${CHOST}/sysroot/lib || true
-  # TODO :: Also do this for libgfortran (and libstdc++ too probably?)
-  sed -i.bak 's/.*cannot install.*/func_warning "Ignoring libtool error about cannot install to a directory not ending in"/' \
-             ${CHOST}/libsanitizer/libtool
+  if [ -f ${CHOST}/libsanitizer/libtool ]; then
+    # TODO :: Also do this for libgfortran (and libstdc++ too probably?)
+    sed -i.bak 's/.*cannot install.*/func_warning "Ignoring libtool error about cannot install to a directory not ending in"/' \
+               ${CHOST}/libsanitizer/libtool
+  fi
   for lib in libatomic libgomp libquadmath libitm libvtv libsanitizer/{a,l,ub,t}san; do
     # TODO :: Also do this for libgfortran (and libstdc++ too probably?)
     if [[ -f ${CHOST}/${lib}/libtool ]]; then
@@ -35,7 +37,7 @@ pushd ${SRC_DIR}/.build/${CHOST}/build/build-cc-gcc-final/
 popd
 
 mkdir -p ${PREFIX}/lib
-mv ${PREFIX}/${CHOST}/lib/* ${PREFIX}/lib
+mv ${PREFIX}/${CHOST}/lib/* ${PREFIX}/lib || true
 
 for lib in libatomic libgomp libquadmath libitm libvtv lib{a,l,ub,t}san; do
   symtargets=$(find ${PREFIX}/lib -name "${lib}.so*")

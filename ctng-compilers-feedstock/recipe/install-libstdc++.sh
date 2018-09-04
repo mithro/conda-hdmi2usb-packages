@@ -8,13 +8,18 @@ export PATH=${SRC_DIR}/gcc_built/bin:${SRC_DIR}/.build/${CHOST}/buildtools/bin:$
 
 pushd ${SRC_DIR}/.build/${CHOST}/build/build-cc-gcc-final/
 
-  make -C ${CHOST}/libstdc++-v3/src prefix=${PREFIX} install-toolexeclibLTLIBRARIES
-  make -C ${CHOST}/libstdc++-v3/po prefix=${PREFIX} install
+  if [ -d ${CHOST}/libstdc++-v3 ]; then
+    make -C ${CHOST}/libstdc++-v3/src prefix=${PREFIX} install-toolexeclibLTLIBRARIES
+    make -C ${CHOST}/libstdc++-v3/po prefix=${PREFIX} install
+  fi
 
 popd
 
 mkdir -p ${PREFIX}/lib
-mv ${PREFIX}/${CHOST}/lib/* ${PREFIX}/lib
+CHOST_LIBS=$(ls ${PREFIX}/${CHOST}/lib/* || true)
+if [ ! -z "$CHOST_LIBS" ]; then
+  mv $CHOST_LIBS ${PREFIX}/lib
+fi
 mkdir -p ${PREFIX}/${CHOST}/sysroot/lib || true
 symtargets=$(find ${PREFIX}/lib -name "libstdc++*.so*")
 for symtarget in ${symtargets}; do

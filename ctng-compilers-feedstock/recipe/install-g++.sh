@@ -19,10 +19,12 @@ for file in cc1plus; do
   fi
 done
 
-make -C $CHOST/libstdc++-v3/src prefix=${PREFIX} install
-make -C $CHOST/libstdc++-v3/include prefix=${PREFIX} install
-make -C $CHOST/libstdc++-v3/libsupc++ prefix=${PREFIX} install
-make -C $CHOST/libstdc++-v3/python prefix=${PREFIX} install
+if [ -d ${CHOST}/libstdc++-v3 ]; then
+  make -C $CHOST/libstdc++-v3/src prefix=${PREFIX} install
+  make -C $CHOST/libstdc++-v3/include prefix=${PREFIX} install
+  make -C $CHOST/libstdc++-v3/libsupc++ prefix=${PREFIX} install
+  make -C $CHOST/libstdc++-v3/python prefix=${PREFIX} install
+fi
 
 # Probably don't want to do this for cross-compilers
 # mkdir -p ${PREFIX}/share/gdb/auto-load/usr/lib/
@@ -46,7 +48,8 @@ pushd ${PREFIX}
       *script*executable*)
       ;;
       *executable*)
-        ${SRC_DIR}/gcc_built/bin/${CHOST}-strip --strip-all -v "${_file}"
+        #${SRC_DIR}/gcc_built/bin/${CHOST}-strip --strip-all -v "${_file}"
+        strip --strip-all -v "${_file}"
       ;;
     esac
   done

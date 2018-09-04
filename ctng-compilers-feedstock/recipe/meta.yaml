@@ -46,7 +46,9 @@ outputs:
       run:
         - {{ pin_subpackage("binutils_impl_" ~ ctng_target_platform, exact=True) }}
         # libstdcxx-ng is a runtime dep of gcc because LTO requires it.
+{% if "c++" in ctng_langs %}
         - {{ pin_subpackage("libstdcxx-ng", max_pin=None) }}
+{% endif %}
         - {{ pin_subpackage("libgcc-ng", max_pin=None) }}
     run_exports:
       # impose this requirement across the build/host boundary
@@ -64,6 +66,7 @@ outputs:
       home: https://gcc.gnu.org/
       license: GPL
 
+{% if "c++" in ctng_langs %}
   - name: gxx_impl_{{ ctng_target_platform }}
     script: install-g++.sh
     build:
@@ -98,8 +101,9 @@ outputs:
       summary: GNU C++ Compiler
       home: https://gcc.gnu.org/
       license: GPL
+{% endif %}
 
-  {% if ctng_only_c is not defined %}
+{% if "fortran" in ctng_langs %}
   - name: gfortran_impl_{{ ctng_target_platform }}
     script: install-gfortran.sh
     build:
@@ -140,7 +144,7 @@ outputs:
       summary: GNU Fortran Compiler
       home: https://gcc.gnu.org/
       license: GPL
-  {% endif %}
+{% endif %}
 
   - name: binutils_impl_{{ ctng_target_platform }}
     version: "{{ ctng_binutils }}"
@@ -159,6 +163,7 @@ outputs:
       home: https://www.gnu.org/software/binutils/
       license: GPL
 
+{% if "c++" in ctng_langs %}
   - name: libstdcxx-ng
     target: {{ ctng_target_platform }}
     script: install-libstdc++.sh
@@ -172,6 +177,7 @@ outputs:
       summary: The GNU C++ Runtime Library
       home: https://gcc.gnu.org/
       license: GPL3 with runtime exception
+{% endif %}
 
   - name: libgcc-ng
     target: {{ ctng_target_platform }}
@@ -187,7 +193,7 @@ outputs:
       home: https://gcc.gnu.org/onlinedocs/gccint/Libgcc.html
       license: GPL
 
-  {% if ctng_only_c is not defined %}
+  {% if "fortran" in ctng_langs %}
   - name: libgfortran-ng
     target: {{ ctng_target_platform }}
     script: install-libgfortran.sh
@@ -218,7 +224,7 @@ outputs:
       license: GPL
   {% endif %}
 
-  {% if ctng_duma is defined %}
+  {% if ctng_duma is defined and ctng_duma %}
   - name: duma_{{ ctng_target_platform }}
     target: {{ ctng_target_platform }}
     version: {{ ctng_duma }}

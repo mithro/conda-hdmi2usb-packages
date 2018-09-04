@@ -52,6 +52,10 @@ export GITREV="$(git describe --long 2>/dev/null || echo "unknown")"
 if [ -z "$CONDA_BUILD_CONFIG" ]; then
 	export CONDA_BUILD_ARGS=$PACKAGE
 else
-	export CONDA_BUILD_ARGS="$PACKAGE -m $PACKAGE/conda_build_config.$CONDA_BUILD_CONFIG.yaml"
+	if [ -f "$PACKAGE/conda_build_config.yaml" ]; then
+		export CONDA_BUILD_ARGS="$PACKAGE -m $PACKAGE/conda_build_config.yaml -m $PACKAGE/conda_build_config.$CONDA_BUILD_CONFIG.yaml"
+	else
+		export CONDA_BUILD_ARGS="$PACKAGE -m $PACKAGE/conda_build_config.$CONDA_BUILD_CONFIG.yaml"
+	fi
 fi
 export CONDA_OUT="$(conda render $CONDA_BUILD_ARGS --output 2> /dev/null | tail -n 1 | sed -e's/-[0-9]\+\.tar/*.tar/' -e's/-git//')"

@@ -126,7 +126,9 @@ elif [[ ${kernel_arch} == i686 ]]; then
   kernel_arch=x86
 fi
 
-make -C ${SRC_DIR}/.build/src/linux-* CROSS_COMPILE=${CHOST}- O=${SRC_DIR}/.build/${CHOST}/build/build-kernel-headers ARCH=${kernel_arch} INSTALL_HDR_PATH=${PREFIX}/${CHOST}/sysroot/usr ${VERBOSE_AT} headers_install
+if [[ ! -z "${kernel_arch}" ]]; then
+  make -C ${SRC_DIR}/.build/src/linux-* CROSS_COMPILE=${CHOST}- O=${SRC_DIR}/.build/${CHOST}/build/build-kernel-headers ARCH=${kernel_arch} INSTALL_HDR_PATH=${PREFIX}/${CHOST}/sysroot/usr ${VERBOSE_AT} headers_install
+fi
 
 if [[ ${ctng_libc} == gnu ]]; then
   # Install libc libraries
@@ -135,7 +137,7 @@ if [[ ${ctng_libc} == gnu ]]; then
             BUILD_LDFLAGS="-L${SRC_DIR}/.build/${CHOST}/buildtools/lib"           \
             install_root=${PREFIX}/${CHOST}/sysroot install
   popd
-else
+elif [[ ${ctng_libc} == ulibc ]]; then
   # Install uClibc headers
   pushd ${SRC_DIR}/.build/${CHOST}/build/build-libc-startfiles/multilib
     make CROSS_COMPILE=${CHOST}- PREFIX=${PREFIX}/${CHOST}/sysroot MULTILIB_DIR=lib \
@@ -170,7 +172,9 @@ sed -i -e "/\*link_libgcc:/,+1 s+%.*+& -rpath ${PREFIX}/lib+" $specdir/specs
 # Ensure that libgcc_s.so is found in the sysroot. I have done this to mask the fact that
 # strong run_export packages do not get installed into the host prefix (AFAICT) and we
 # should really fix that too. (ping @msarahan)
-cp -f ${PREFIX}/${CHOST}/lib/libgcc_s.so* ${PREFIX}/${CHOST}/sysroot/lib
+if ls ${PREFIX}/${CHOST}/lib/libgcc_s.so*; then
+  cp -f ${PREFIX}/${CHOST}/lib/libgcc_s.so* ${PREFIX}/${CHOST}/sysroot/lib
+fi
 
 # Install Runtime Library Exception
 install -Dm644 $SRC_DIR/.build/src/gcc-${PKG_VERSION}/COPYING.RUNTIME \
@@ -202,7 +206,8 @@ pushd ${PREFIX}
       *script*executable*)
       ;;
       *executable*)
-        ${SRC_DIR}/gcc_built/bin/${CHOST}-strip --strip-all -v "${_file}"
+        #${SRC_DIR}/gcc_built/bin/${CHOST}-strip --strip-all -v "${_file}"
+        strip --strip-all -v "${_file}"
       ;;
     esac
   done

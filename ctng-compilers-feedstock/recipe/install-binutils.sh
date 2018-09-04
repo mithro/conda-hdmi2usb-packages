@@ -7,9 +7,12 @@ pushd ${SRC_DIR}/.build/${CHOST}/build/build-binutils-host-*
   make prefix=${PREFIX} install-strip
 popd
 
-# Copy the liblto_plugin.so from the build tree. This is something of a hack and, on OSes other
-# than the build OS, may cause segfaults. This plugin is used by gcc-ar, gcc-as and gcc-ranlib.
-pushd ${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-core-pass-2/gcc/
-  mkdir -p ${PREFIX}/libexec/gcc/${CHOST}/${TOP_PKG_VERSION}/
-  cp -a liblto* ${PREFIX}/libexec/gcc/${CHOST}/${TOP_PKG_VERSION}/
-popd
+# If it was a two pass GCC build, copy the liblto_plugin.so file out.
+if ls ${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-core-pass-2/gcc/; then
+  # Copy the liblto_plugin.so from the build tree. This is something of a hack and, on OSes other
+  # than the build OS, may cause segfaults. This plugin is used by gcc-ar, gcc-as and gcc-ranlib.
+  pushd ${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-core-pass-2/gcc/
+    mkdir -p ${PREFIX}/libexec/gcc/${CHOST}/${TOP_PKG_VERSION}/
+    cp -a liblto* ${PREFIX}/libexec/gcc/${CHOST}/${TOP_PKG_VERSION}/
+  popd
+fi

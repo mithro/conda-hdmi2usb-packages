@@ -32,7 +32,11 @@ if [[ ${ctng_libc} == uClibc ]]; then
   if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/uClibc-${ctng_uClibc}.tar.xz" ]]; then
     ${DOWNLOADER_INSECURE} https://www.uclibc.org/downloads/uClibc-${ctng_uClibc}.tar.xz ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/uClibc-${ctng_uClibc}.tar.xz
   fi
-elif [[ ${ctng_libc} != none ]]; then
+elif [[ ${ctng_libc} == newlib ]]; then
+  if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/newlib-${ctng_newlib}.tar.gz" ]]; then
+    ${DOWNLOADER_INSECURE} ftp://sourceware.org/pub/newlib/newlib-${ctng_newlib}.tar.gz ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/newlib-${ctng_newlib}.tar.gz
+  fi
+elif [[ ${ctng_libc} == gnu ]]; then
   if [[ ! -e "${SYS_PREFIX}/conda-bld/src_cache/glibc-${gnu}.tar.bz2" ]]; then
     ${DOWNLOADER_INSECURE} https://ftp.gnu.org/gnu/libc/glibc-${gnu}.tar.bz2 ${DOWNLOADER_OUT} ${SYS_PREFIX}/conda-bld/src_cache/glibc-${gnu}.tar.bz2
   fi
@@ -75,14 +79,14 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
 
     write_ctng_config_before .config
     # Apply some adjustments for conda.
-    sed -i.bak "s|# CT_DISABLE_MULTILIB_LIB_OSDIRNAMES is not set|CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y|g" .config
-    sed -i.bak "s|CT_CC_GCC_USE_LTO=n|CT_CC_GCC_USE_LTO=y|g" .config
-    cat .config | grep CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y || exit 1
-    cat .config | grep CT_CC_GCC_USE_LTO=y || exit 1
+    #sed -i.bak "s|# CT_DISABLE_MULTILIB_LIB_OSDIRNAMES is not set|CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y|g" .config
+    #sed -i.bak "s|CT_CC_GCC_USE_LTO=n|CT_CC_GCC_USE_LTO=y|g" .config
+    #cat .config | grep CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y || exit 1
+    #cat .config | grep CT_CC_GCC_USE_LTO=y || exit 1
     # Not sure why this is getting set to y since it depends on ! STATIC_TOOLCHAIN
-    if [[ ${ctng_nature} == static ]]; then
-      sed -i.bak "s|CT_CC_GCC_ENABLE_PLUGINS=y|CT_CC_GCC_ENABLE_PLUGINS=n|g" .config
-    fi
+    #if [[ ${ctng_nature} == static ]]; then
+    #  sed -i.bak "s|CT_CC_GCC_ENABLE_PLUGINS=y|CT_CC_GCC_ENABLE_PLUGINS=n|g" .config
+    #fi
     if [[ $(uname) == Darwin ]]; then
         sed -i.bak "s|CT_WANTS_STATIC_LINK=y|CT_WANTS_STATIC_LINK=n|g" .config
         sed -i.bak "s|CT_CC_GCC_STATIC_LIBSTDCXX=y|CT_CC_GCC_STATIC_LIBSTDCXX=n|g" .config
@@ -109,8 +113,8 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
 
     # Now filter out 'things that cause problems'. For example, depending on the base sample, you can end up with
     # two different glibc versions in-play.
-    sed -i.bak '/CT_LIBC/d' .config
-    sed -i.bak '/CT_LIBC_GLIBC/d' .config
+    #sed -i.bak '/CT_LIBC/d' .config
+    #sed -i.bak '/CT_LIBC_GLIBC/d' .config
     # And undo any damage to version numbers => the seds above could be moved into this too probably.
     write_ctng_config_after .config
     if cat .config | grep "CT_GDB_NATIVE=y"; then
@@ -124,9 +128,9 @@ if [[ ! -n $(find ${SRC_DIR}/gcc_built -iname ${ctng_cpu_arch}-${ctng_vendor}-*-
     unset CFLAGS CXXFLAGS LDFLAGS
 
     echo
-    echo "build------------------------------"
-    cp .config build.config
-    diff -u initial.config build.config || true
+    echo "final------------------------------"
+    cp .config final.config
+    diff -u before.config final.config || true
     echo "-----------------------------------"
     echo
 
@@ -143,9 +147,9 @@ ls -l ${SRC_DIR}/.build
 
 CHOST=$(${SRC_DIR}/.build/*-*-*/build/build-cc-gcc-final/gcc/xgcc -dumpmachine)
 
-# pushd .build/${CHOST}/build/build-cc-gcc-final
-# make -k check || true
-# popd
+pushd .build/${CHOST}/build/build-cc-gcc-final
+  make -k check || true
+popd
 
 # .build/src/gcc-${PKG_VERSION}/contrib/test_summary
 

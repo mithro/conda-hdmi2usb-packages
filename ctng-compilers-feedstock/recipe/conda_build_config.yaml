@@ -1,0 +1,31 @@
+# From https://github.com/AnacondaRecipes/aggregate/blob/master/conda_build_config.yaml
+# 6be3f381b34eba69e6757b31d51d1252c68aef4c
+
+# this is global, but can be overridden by other stuff in recipes
+ctng_binutils:
+  - 2.31.1
+ctng_duma:
+  - 2.5.15
+ctng_gcc:
+  - 8.2.0
+ctng_gmp:
+  - 6.1.2
+ctng_isl:
+  - 0.19
+ctng_libc:
+  - gnu
+ctng_kernel:
+  - 2.6.32
+ctng_libiconv:
+  - 1.15
+ctng_mpc:
+  - 1
+ctng_nature:
+  - shared
+ctng_langs:
+  - c, c++, fortran, objc
+
+#ctng_ncurses:
+#  - 6.1
+#ctng_vendor:
+#  - conda_cos6

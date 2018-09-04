@@ -133,6 +133,8 @@ function write_ctng_config_before() {
 
   echo "CT_OBSOLETE=y"                                                  >> "${_dst}"
   echo "CT_EXPERIMENTAL=y"                                              >> "${_dst}"
+  echo "CT_MULTILIB=y"                                                  >> "${_dst}"
+  echo "CT_DEMULTILIB=n"                                                >> "${_dst}"
   # echo "CT_DEBUGGABLE_TOOLCHAIN=y"                                      >> "${_dst}"
   # echo "CT_STRIP_HOST_TOOLCHAIN_EXECUTABLES=n"                          >> "${_dst}"
   # echo "CT_STRIP_TARGET_TOOLCHAIN_EXECUTABLES=n"                        >> "${_dst}"
@@ -150,16 +152,38 @@ function write_ctng_config_before() {
   else
     echo "CT_STATIC_TOOLCHAIN=n"                                        >> "${_dst}"
   fi
-  echo "CT_CC_LANG_CXX=y"                                               >> "${_dst}"
-  if [[ -n ${ctng_only_c} ]]; then
-    echo "CT_CC_LANG_FORTRAN=n"                                         >> "${_dst}"
-    echo "CT_CC_LANG_OBJC=n"                                            >> "${_dst}"
-    echo "CT_CC_LANG_OBJCXX=n"                                          >> "${_dst}"
+  # Always force 2 pass build
+  echo "CT_CC_CORE_PASS_2_NEEDED=y"                                     >> "${_dst}"
+  # C++ Support
+  if [[ ${ctng_langs} == "*c++*" ]]; then
+    echo "CT_CC_SUPPORT_CXX=y"                                          >> "${_dst}"
+    echo "CT_CC_LANG_CXX=y"                                             >> "${_dst}"
   else
+    echo "CT_CC_SUPPORT_CXX=n"                                          >> "${_dst}"
+    echo "CT_CC_LANG_CXX=n"                                             >> "${_dst}"
+  fi
+  # Fortran Support
+  if [[ ${ctng_langs} == "*fortran*" ]]; then
+    echo "CT_CC_SUPPORT_FORTRAN=y"                                      >> "${_dst}"
     echo "CT_CC_LANG_FORTRAN=y"                                         >> "${_dst}"
+  else
+    echo "CT_CC_SUPPORT_FORTRAN=n"                                      >> "${_dst}"
+    echo "CT_CC_LANG_FORTRAN=n"                                         >> "${_dst}"
+  fi
+  # Objective C Support
+  if [[ ${ctng_langs} == "*objc*" ]]; then
+    echo "CT_CC_SUPPORT_OBJC=y"                                         >> "${_dst}"
+    echo "CT_CC_SUPPORT_OBJCXX=y"                                       >> "${_dst}"
     echo "CT_CC_LANG_OBJC=y"                                            >> "${_dst}"
     echo "CT_CC_LANG_OBJCXX=y"                                          >> "${_dst}"
+  else
+    echo "CT_CC_SUPPORT_OBJC=n"                                         >> "${_dst}"
+    echo "CT_CC_SUPPORT_OBJCXX=n"                                       >> "${_dst}"
+    echo "CT_CC_LANG_OBJC=n"                                            >> "${_dst}"
+    echo "CT_CC_LANG_OBJCXX=n"                                          >> "${_dst}"
   fi
+  # FIXME: Is this needed?
+  # echo "CT_CC_LANG_OTHERS=\"\""                                       >> "${_dst}"
   if [[ -n ${ctng_duma} ]]; then
     echo "CT_DEBUG_duma=y"                                              >> "${_dst}"
     echo "CT_DUMA_SO=y"                                                 >> "${_dst}"
@@ -185,7 +209,7 @@ function write_ctng_config_before() {
       echo "CT_GDB_GDBSERVER_STATIC=n"                                  >> "${_dst}"
     fi
   fi
-  echo "CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y"                           >> "${_dst}"
+#  echo "CT_DISABLE_MULTILIB_LIB_OSDIRNAMES=y"                           >> "${_dst}"
   echo "CT_CC_GCC_LIBGOMP=y"                                            >> "${_dst}"
   echo "CT_CC_GCC_LIBQUADMATH=y"                                        >> "${_dst}"
   echo "CT_CC_GCC_USE_LTO=y"                                            >> "${_dst}"
@@ -281,6 +305,10 @@ function write_ctng_config_before() {
       echo "CT_BINUTILS_LINKER_LD_GOLD=y"                               >> "${_dst}"
       echo "CT_BINUTILS_LINKERS_LIST=\"ld,gold\""                       >> "${_dst}"
   fi
+  # FIXME: This is incorrect I think?
+  echo "CT_CC_GCC_STATIC_LIBSTDCXX=n"                                   >> "${_dst}"
+  echo "CT_WANTS_STATIC_LINK=n"                                         >> "${_dst}"
+  echo "CT_WANTS_STATIC_LINK_CXX=n"                                     >> "${_dst}"
 
   write_ctng_package_versions "${_dst}"
 }
