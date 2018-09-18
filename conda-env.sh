@@ -7,9 +7,11 @@
 #     also set similarly at test time.
 export  PYTHONWARNINGS=ignore::UserWarning:conda_build.environ
 
-if [ -z "$DATESTR" ]; then
-	export DATESTR=$(date -u +%y%m%d%H%M)
-	echo "Setting short date string of $DATESTR"
+if [ -z "$DATE_STR" ]; then
+	export DATE_NUM="$(date -u +%y%m%d%H%M)"
+	export DATE_STR="$(date -u +%Y%m%d_%H%M%S)"
+	echo "Setting date number to $DATE_NUM"
+	echo "Setting date string to $DATE_STR"
 fi
 if [ -z "$GITREV" ]; then
 	export GITREV="$(git describe --long)"
