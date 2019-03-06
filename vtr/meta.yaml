@@ -31,7 +31,7 @@ requirements:
     - fontconfig
     - ncurses
     - pkg-config
-    - readline
+    - readline <8
     - tk
     - xorg-libice
     - xorg-libsm
@@ -40,7 +40,7 @@ requirements:
     - xorg-libxext
     - xorg-libxft
   run:
-    - readline
+    - readline <8
     - tk
     - cairo
     - fontconfig
