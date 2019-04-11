@@ -8,7 +8,10 @@ if [ x"$TRAVIS" = xtrue ]; then
 fi
 
 export M4=${PREFIX}/bin/m4
-make V=1 CMAKE_PARAMS="-DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON" -j$CPU_COUNT
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
+make -j$CPU_COUNT
 make test
 make install
 
