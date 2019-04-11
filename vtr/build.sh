@@ -6,7 +6,8 @@ set -x
 if [ x"$TRAVIS" = xtrue ]; then
 	CPU_COUNT=2
 fi
-
+unset DEBUG_CFLAGS
+unset DEBUG_CXXFLAGS
 export M4=${PREFIX}/bin/m4
 mkdir build
 cd build
