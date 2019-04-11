@@ -39,6 +39,7 @@ requirements:
     - xorg-libxcb
     - xorg-libxext
     - xorg-libxft
+    - tbb
   run:
     - readline <8
     - tk
@@ -46,6 +47,7 @@ requirements:
     - fontconfig
     - xorg-libx11
     - xorg-libxft
+    - tbb
 
 #test:
 #  commands:

@@ -24,6 +24,8 @@ addons:
     - libudev1
     - libusb-1.0-0-dev
     - libusb-dev
+    - libx11-dev
+    - libtbb-dev
     - texinfo
 
 before_install:
