@@ -7,8 +7,28 @@ if [ x"$TRAVIS" = xtrue ]; then
 	CPU_COUNT=2
 fi
 
-unset DEBUG_CFLAGS
-unset DEBUG_CXXFLAGS
+echo "============================================================"
+echo "CFLAGS='$CFLAGS'"
+echo "CXXFLAGS='$CXXFLAGS'"
+echo "CPPFLAGS='$CPPFLAGS'"
+echo "DEBUG_CXXFLAGS='$DEBUG_CXXFLAGS'"
+echo "DEBUG_CPPFLAGS='$DEBUG_CPPFLAGS'"
+echo "LDFLAGS='$LDFLAGS'"
+echo "------------------------------------------------------------"
+# -Wundef causes warnings on undefined preprocessor defines (e.g. o
+# tbb_config.h:56:7: warning: "__GLIBCPP__" is not defined, evaluates to 0 [-Wundef]
+# elif __GLIBCPP__ || __GLIBCXX__
+export CFLAGS="$(echo $CFLAGS | sed -e's/-Wundef //') -w"
+export CXXFLAGS="$(echo $CXXFLAGS | sed -e's/-Wundef //') -w"
+export CPPFLAGS="$(echo $CPPFLAGS | sed -e's/-Wundef //')"
+export DEBUG_CXXFLAGS="$(echo $DEBUG_CXXFLAGS | sed -e's/-Wundef //') -w"
+export DEBUG_CPPFLAGS="$(echo $DEBUG_CPPFLAGS | sed -e's/-Wundef //')"
+echo "CFLAGS='$CFLAGS'"
+echo "CXXFLAGS='$CXXFLAGS'"
+echo "CPPFLAGS='$CPPFLAGS'"
+echo "DEBUG_CXXFLAGS='$DEBUG_CXXFLAGS'"
+echo "DEBUG_CPPFLAGS='$DEBUG_CPPFLAGS'"
+echo "LDFLAGS='$LDFLAGS'"
 env
 export M4=${PREFIX}/bin/m4
 mkdir build
