@@ -11,6 +11,7 @@ export M4=${PREFIX}/bin/m4
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
+grep -i flags CMakeCache.txt
 make -j$CPU_COUNT
 make test
 make install
