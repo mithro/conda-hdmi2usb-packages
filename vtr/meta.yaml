@@ -40,6 +40,7 @@ requirements:
     - xorg-libxext
     - xorg-libxft
     - tbb
+    - tbb-devel
   run:
     - readline <8
     - tk
