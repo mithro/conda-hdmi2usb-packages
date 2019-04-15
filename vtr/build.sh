@@ -35,7 +35,8 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
 grep -i flags CMakeCache.txt
-make -j$CPU_COUNT || make VERBOSE=1
+make -k -j$CPU_COUNT || make VERBOSE=1
+make VERBOSE=1
 make test
 make install
 
