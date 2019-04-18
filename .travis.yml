@@ -41,7 +41,6 @@ env:
   # riscv32 toolchain
   - PACKAGE=riscv32/binutils
   # verilog tools
-  - PACKAGE=arachne-pnr
   - PACKAGE=icestorm
   - PACKAGE=iverilog
 
