@@ -43,6 +43,7 @@ env:
   # verilog tools
   - PACKAGE=icestorm
   - PACKAGE=iverilog
+  - PACKAGE=verilator
 
 script:
   - bash $TRAVIS_BUILD_DIR/.travis/script.sh
