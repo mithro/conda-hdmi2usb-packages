@@ -37,6 +37,7 @@ install:
 env:
   - PACKAGE=vtr                 CONDA_CHANNELS=conda-forge
   - PACKAGE=yosys
+  - PACKAGE=nextpnr
   - PACKAGE=openocd
   # riscv32 toolchain
   - PACKAGE=riscv32/binutils
