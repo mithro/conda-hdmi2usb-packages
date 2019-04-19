@@ -16,7 +16,9 @@ for CHANNEL in $CONDA_CHANNELS; do
 	conda config --add channels $CHANNEL
 done
 conda config --add channels $(echo $TRAVIS_REPO_SLUG | sed -e's@/.*$@@')
-conda build purge-all
+#conda clean -s --dry-run
+conda build purge
+#conda clean -s --dry-run
 
 ./conda-meta-extra.sh
 
@@ -34,11 +36,19 @@ conda config --show
 end_section "info.conda.config"
 
 start_section "info.conda.package" "Info on ${YELLOW}conda package${NC}"
-conda render $PACKAGE
+conda render --no-source $CONDA_BUILD_ARGS || true
 end_section "info.conda.package"
 
-start_section "info.autotools" "Info on ${YELLOW}autotools${NC}"
-autoconf --version
-automake --version
-libtool --version
-end_section "info.autotools"
+$SPACER
+
+start_section "conda.copy" "${GREEN}Copying package...${NC}"
+mkdir -p /tmp/conda/$PACKAGE
+cp -vRL $PACKAGE/* /tmp/conda/$PACKAGE/
+cd /tmp/conda/
+end_section "conda.copy"
+
+$SPACER
+
+start_section "conda.download" "${GREEN}Downloading..${NC}"
+travis_wait conda build --source $CONDA_BUILD_ARGS || true
+end_section "conda.download"

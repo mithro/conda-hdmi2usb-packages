@@ -1,13 +1,14 @@
+{% set version = '%s_%04i_%s'|format(GIT_DESCRIBE_TAG|replace('v', '') or '0.X.X', GIT_DESCRIBE_NUMBER|int, GIT_DESCRIBE_HASH or 'gUNKNOWN') %}
+
 package:
   name: openocd
-  version: git
+  version: {{ version }}
 
 source:
   git_rev: master
   git_url: git://repo.or.cz/openocd.git
   patches:
     - digilent-arty.patch
-    - digilent-arty-s7.patch
     - digilent-cmod-a7.patch
     - digilent-nexys_video.patch
     - gadgetfactory-papilio_duo.patch
@@ -15,10 +16,12 @@ source:
     - numato-saturn.patch
     - numato-waxwing.patch
     - fpga-program.patch
-    - spartan7-idcodes.patch
 
 build:
-  number: 0
+  # number: 201803050325
+  number: {{ environ.get('DATE_NUM') }}
+  # string: 20180305_0325
+  string: {{ environ.get('DATE_STR') }}
   script_env:
     - CI
     - TRAVIS
