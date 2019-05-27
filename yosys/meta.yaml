@@ -35,7 +35,6 @@ requirements:
     - readline
     - tk
     - libffi
-    - flex
 
 about:
   home: http://www.clifford.at/yosys/
