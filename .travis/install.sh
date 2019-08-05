@@ -12,8 +12,7 @@ hash -r
 conda config --set always_yes yes --set changeps1 no
 conda install pexpect
 conda config --add channels timvideos
-echo $CONDA_CHANNELS
-for CHANNEL in $CONDA_CHANNELS; do
+for CHANNEL in $(echo $CONDA_CHANNELS | tr ',' ' '); do
 	conda config --add channels $CHANNEL
 done
 conda config --add channels $(echo $TRAVIS_REPO_SLUG | sed -e's@/.*$@@')
