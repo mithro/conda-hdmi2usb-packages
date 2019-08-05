@@ -35,7 +35,7 @@ install:
  - ./.travis/install.sh
 
 env:
-  - PACKAGE=vtr                 CONDA_CHANNELS=conda-forge
+  - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge conda-forge"
   - PACKAGE=yosys
   - PACKAGE=nextpnr
   - PACKAGE=openocd

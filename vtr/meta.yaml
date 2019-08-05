@@ -39,6 +39,7 @@ requirements:
     - xorg-libxft
     - tbb
     - tbb-devel
+    - gtk3
   run:
     - readline <8
     - tk
@@ -47,6 +48,7 @@ requirements:
     - xorg-libx11
     - xorg-libxft
     - tbb
+    - gtk3
 
 #test:
 #  commands:
