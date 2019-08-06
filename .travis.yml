@@ -36,6 +36,7 @@ install:
 
 env:
   - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge,conda-forge"
+  - PACKAGE=libusb
   - PACKAGE=yosys
   - PACKAGE=nextpnr
   - PACKAGE=openocd
