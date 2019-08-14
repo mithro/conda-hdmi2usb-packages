@@ -23,7 +23,6 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - bison
-    - cairo
     - cmake
     - flex
     - fontconfig
@@ -39,16 +38,13 @@ requirements:
     - xorg-libxft
     - tbb
     - tbb-devel
-    - gtk3
   run:
     - readline <8
     - tk
-    - cairo
     - fontconfig
     - xorg-libx11
     - xorg-libxft
     - tbb
-    - gtk3
 
 #test:
 #  commands:
