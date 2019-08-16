@@ -36,9 +36,8 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
 grep -i flags CMakeCache.txt
 make -k -j$CPU_COUNT || make VERBOSE=1
-make VERBOSE=1
 make test
-make install
+make -j$CPU_COUNT install
 
 mkdir -p ${PREFIX}/lib
 mv ${PREFIX}/bin/*.a ${PREFIX}/lib/
