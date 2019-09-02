@@ -27,28 +27,11 @@ requirements:
     - bison
     - cmake
     - flex
-    - fontconfig
-    - ncurses
     - pkg-config
-    - readline <8
-    - tk
-    - xorg-libice
-    - xorg-libsm
-    - xorg-libx11
-    - xorg-libxcb
-    - xorg-libxext
-    - xorg-libxft
     - tbb
     - tbb-devel
-    - gtk3
   run:
-    - readline <8
-    - tk
-    - fontconfig
-    - xorg-libx11
-    - xorg-libxft
     - tbb
-    - gtk3
 
 #test:
 #  commands:

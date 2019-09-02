@@ -27,7 +27,7 @@ install:
  - ./.travis/install.sh
 
 env:
-  - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge,conda-forge"
+  - PACKAGE=vtr
   - PACKAGE=libusb
   - PACKAGE=yosys
   - PACKAGE=nextpnr
