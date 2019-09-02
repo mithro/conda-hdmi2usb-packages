@@ -1,0 +1,47 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index efa7f3fc5..57847f6a0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -330,9 +330,9 @@ endif()
+ #Add the various sub-projects
+ add_subdirectory(libs)
+ add_subdirectory(vpr)
+-add_subdirectory(abc)
+-add_subdirectory(ODIN_II)
+-add_subdirectory(ace2)
++#add_subdirectory(abc)
++#add_subdirectory(ODIN_II)
++#add_subdirectory(ace2)
+ add_subdirectory(utils)
+ if(WITH_BLIFEXPLORER)
+     add_subdirectory(blifexplorer)
+@@ -344,14 +344,14 @@ endif()
+ 
+ #Since ABC is an externally developed tool, we suppress all compiler warnings
+ CHECK_CXX_COMPILER_FLAG("-w" CXX_COMPILER_SUPPORTS_-w)
+-if(CXX_COMPILER_SUPPORTS_-w)
+-    target_compile_options(libabc PRIVATE "-w")
+-    target_compile_options(abc PRIVATE "-w")
+-endif()
++#if(CXX_COMPILER_SUPPORTS_-w)
++#    target_compile_options(libabc PRIVATE "-w")
++#    target_compile_options(abc PRIVATE "-w")
++#endif()
+ 
+ #Some ABC headers generate warnings, treat them as system headers to suppress warnings
+-get_property(ABC_INCLUDE_DIRS TARGET libabc PROPERTY INCLUDE_DIRECTORIES)
+-target_include_directories(libabc SYSTEM INTERFACE ${ABC_INCLUDE_DIRS})
++#get_property(ABC_INCLUDE_DIRS TARGET libabc PROPERTY INCLUDE_DIRECTORIES)
++#target_include_directories(libabc SYSTEM INTERFACE ${ABC_INCLUDE_DIRS})
+ 
+ #PugiXml has some deliberate switch fallthrough cases (as indicated by comments), but they
+ #are tagged as warnings with g++-7 (the comments don't match g++-7's suppression regexes).
+@@ -364,7 +364,7 @@ endif()
+ 
+ #We don't control the ABC cmake file, so we need to manually unset the IPO flags
+ #to avoid cmake dev warnings due to it's old cmake version policy
+-set_target_properties(abc libabc libabc-pic PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
++#set_target_properties(abc libabc libabc-pic PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+ 
+ #
+ #
