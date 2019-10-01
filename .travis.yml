@@ -42,6 +42,7 @@ env:
   - PACKAGE=zachjs-sv2v         CONDA_CHANNELS="conda-forge"
   - PACKAGE=odin_II             CONDA_CHANNELS="pkgw-forge,conda-forge"
   - PACKAGE=tree-sitter-verilog
+  - PACKAGE=slang               CONDA_CHANNELS="conda-forge"
   # protocol analyzers
   - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
 

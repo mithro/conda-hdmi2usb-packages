@@ -1,0 +1,22 @@
+diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
+index 1b0c2aed..eb3f115b 100644
+--- a/tools/CMakeLists.txt
++++ b/tools/CMakeLists.txt
+@@ -1,11 +1,11 @@
+ add_executable(depmap depmap/depmap.cpp)
+-target_link_libraries(depmap PRIVATE slang)
++target_link_libraries(depmap PRIVATE slang -static)
+ 
+ add_executable(driver driver/driver.cpp)
+-target_link_libraries(driver PRIVATE slang CONAN_PKG::CLI11)
++target_link_libraries(driver PRIVATE slang CONAN_PKG::CLI11 -static)
+ 
+ add_executable(rewriter rewriter/rewriter.cpp)
+-target_link_libraries(rewriter PRIVATE slang)
++target_link_libraries(rewriter PRIVATE slang -static)
+ 
+ if(FUZZ_TARGET)
+ 	message("Tweaking driver for fuzz testing")
+-- 
+2.23.0
+
