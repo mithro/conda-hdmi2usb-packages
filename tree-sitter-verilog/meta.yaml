@@ -1,0 +1,30 @@
+package:
+  name: tree-sitter-verilog
+  version: {{ GIT_FULL_HASH }}
+
+source:
+  git_url: https://github.com/tree-sitter/tree-sitter-verilog.git
+
+build:
+  # number: 201803050325
+  number: {{ environ.get('DATE_NUM') }}
+  # string: 20180305_0325
+  string: {{ environ.get('DATE_STR') }}
+  script_env:
+    - CI
+    - TRAVIS
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - nodejs
+    - python
+    - pip
+
+about:
+  home: https://github.com/tree-sitter/tree-sitter-verilog
+  license: MIT
+  license_file: LICENSE
+  summary: 'Verilog grammar for tree-sitter'
