@@ -40,6 +40,7 @@ env:
   - PACKAGE=verilator
   # SystemVerilog tools
   - PACKAGE=zachjs-sv2v         CONDA_CHANNELS="conda-forge"
+  - PACKAGE=odin_II             CONDA_CHANNELS="pkgw-forge,conda-forge"
 
 script:
   - bash $TRAVIS_BUILD_DIR/.travis/script.sh
