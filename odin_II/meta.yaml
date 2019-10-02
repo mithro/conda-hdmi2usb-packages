@@ -1,0 +1,44 @@
+package:
+  name: odin_ii
+  version: {{ GIT_FULL_HASH }}
+
+source:
+  git_url: https://github.com/verilog-to-routing/vtr-verilog-to-routing
+
+build:
+  # number: 201803050325
+  number: {{ environ.get('DATE_NUM') }}
+  # string: 20180305_0325
+  string: {{ environ.get('DATE_STR') }}
+  script_env:
+    - CI
+    - TRAVIS
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - bison
+    - cmake
+    - flex
+    - fontconfig
+    - ncurses
+    - pkg-config
+    - readline <8
+    - tk
+    - xorg-libice
+    - xorg-libsm
+    - xorg-libx11
+    - xorg-libxcb
+    - xorg-libxext
+    - xorg-libxft
+    - tbb
+    - tbb-devel
+    - gtk3
+
+about:
+  home: http://verilogtorouting.org/
+  license: MIT
+  license_file: LICENSE.md
+  summary: 'Odin II is used for logic synthesis and elaboration, converting a subset of the Verilog Hardware Description Language (HDL) into a BLIF netlist.'
