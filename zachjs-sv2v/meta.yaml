@@ -1,0 +1,29 @@
+package:
+  name: zachjs-sv2v
+  version: {{ GIT_FULL_HASH }}
+
+source:
+  git_url: https://github.com/zachjs/sv2v.git
+
+build:
+  # number: 201803050325
+  number: {{ environ.get('DATE_NUM') }}
+  # string: 20180305_0325
+  string: {{ environ.get('DATE_STR') }}
+  script_env:
+    - CI
+    - TRAVIS
+
+requirements:
+  build:
+    - stack
+
+test:
+  commands:
+    - zachjs-sv2v --help
+
+about:
+  home: https://github.com/zachjs/sv2v
+  license: BSD
+  license_file: LICENSE
+  summary: 'sv2v converts SystemVerilog (IEEE 1800-2017) to Verilog (IEEE 1364-2005), with an emphasis on supporting synthesizable language constructs.'
