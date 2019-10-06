@@ -22,19 +22,19 @@ jobs:
      - PACKAGE=lib/ftdi
 
    # rv32 toolchain
-   - stage: "RISC V - C Toolchain"
+   - stage: "RISC V - C Toolchain - Stage 1"
      env:
      - PACKAGE=binutils     TOOLCHAIN_ARCH=riscv32
-   - stage: "RISC V - C Toolchain"
+   - stage: "RISC V - C Toolchain - Stage 2"
      env:
      - PACKAGE=gcc/nostdc   TOOLCHAIN_ARCH=riscv32
-   - stage: "RISC V - C Toolchain"
+   - stage: "RISC V - C Toolchain - Stage 3"
      env:
      - PACKAGE=gcc/newlib   TOOLCHAIN_ARCH=riscv32
-   - stage: "RISC V - C Toolchain"
+   - stage: "RISC V - C Toolchain - Stage 4"
      env:
      - PACKAGE=gcc/linux-musl TOOLCHAIN_ARCH=riscv32
-   - stage: "RISC V - C Toolchain"
+   - stage: "RISC V - C Toolchain - Stage 2"
      env:
      - PACKAGE=gdb          TOOLCHAIN_ARCH=riscv32
 
