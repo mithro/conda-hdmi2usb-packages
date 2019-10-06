@@ -52,3 +52,12 @@ $SPACER
 start_section "conda.download" "${GREEN}Downloading..${NC}"
 travis_wait conda build --source $CONDA_BUILD_ARGS || true
 end_section "conda.download"
+
+if [ -e $PACKAGE/prescript.$TOOLCHAIN_ARCH.sh ]; then
+	start_section "conda.prescript" "${GREEN}Prescript..${NC}"
+	(
+		cd $TRAVIS_BUILD_DIR
+		$PACKAGE/prescript.$TOOLCHAIN_ARCH.sh
+	)
+	end_section "conda.prescript"
+fi
