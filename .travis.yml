@@ -38,6 +38,7 @@ env:
   - PACKAGE=icestorm
   - PACKAGE=iverilog
   - PACKAGE=verilator
+  - PACKAGE=netlistsvg          CONDA_CHANNELS="conda-forge"
   # SystemVerilog tools
   - PACKAGE=zachjs-sv2v         CONDA_CHANNELS="conda-forge"
   - PACKAGE=odin_II             CONDA_CHANNELS="pkgw-forge,conda-forge"
