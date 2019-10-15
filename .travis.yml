@@ -28,6 +28,7 @@ install:
 
 env:
   - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge,conda-forge"
+  - PACKAGE=libxml2
   - PACKAGE=libusb
   - PACKAGE=yosys
   - PACKAGE=nextpnr
