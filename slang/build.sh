@@ -16,6 +16,5 @@ cmake .. -DSLANG_INCLUDE_TESTS=OFF
 
 make
 
-mkdir -p $PREFIX/bin
-
-install bin/* $PREFIX/bin
+install -D bin/driver $PREFIX/bin/slang-driver
+install -D bin/rewriter $PREFIX/bin/slang-rewriter
