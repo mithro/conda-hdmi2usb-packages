@@ -19,12 +19,12 @@ addons:
     - texinfo
 
 before_install:
- - source $TRAVIS_BUILD_DIR/.travis/common.sh
- - bash $TRAVIS_BUILD_DIR/.travis/fixup-git.sh
- - source $TRAVIS_BUILD_DIR/.travis/common.sh
+ - source $TRAVIS_BUILD_DIR/.github/ci/common.sh
+ - bash $TRAVIS_BUILD_DIR/.github/ci/fixup-git.sh
+ - source $TRAVIS_BUILD_DIR/.github/ci/common.sh
 
 install:
- - ./.travis/install.sh
+ - ./.github/ci/install.sh
 
 env:
   - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge,conda-forge"
@@ -49,10 +49,10 @@ env:
   - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
 
 script:
-  - bash $TRAVIS_BUILD_DIR/.travis/script.sh
+  - bash $TRAVIS_BUILD_DIR/.github/ci/script.sh
 
 after_failure:
-  - bash $TRAVIS_BUILD_DIR/.travis/after_failure.sh
+  - bash $TRAVIS_BUILD_DIR/.github/ci/after_failure.sh
 
 after_success:
-  - bash $TRAVIS_BUILD_DIR/.travis/after_success.sh
+  - bash $TRAVIS_BUILD_DIR/.github/ci/after_success.sh

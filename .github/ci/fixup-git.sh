@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $TRAVIS_BUILD_DIR/.travis/common.sh
+source $TRAVIS_BUILD_DIR/.github/ci/common.sh
 set -e
 
 # Git repo fixup
