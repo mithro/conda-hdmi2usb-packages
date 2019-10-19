@@ -45,6 +45,7 @@ env:
   - PACKAGE=odin_II             CONDA_CHANNELS="pkgw-forge,conda-forge"
   - PACKAGE=tree-sitter-verilog
   - PACKAGE=slang               CONDA_CHANNELS="conda-forge"
+  - PACKAGE=moore
   # protocol analyzers
   - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
 
