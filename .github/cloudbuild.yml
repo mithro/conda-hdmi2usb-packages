@@ -1,0 +1,29 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', '.github/ci/Dockerfile', '-t', 'travis-ci', '.']
+
+- name: 'travis-ci'
+  args: ['bash', './conda-get.sh', './env']
+
+#- name: 'travis-ci'
+#  args: ['bash', '-l', './.github/ci/fixup-git.sh']
+#  env:
+#  - 'TRAVIS_BUILD_DIR=/workspace'
+
+- name: 'travis-ci'
+  args: ['bash', './.github/ci/install.sh']
+  env:
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'TRAVIS_PULL_REQUEST=false'
+  - 'TRAVIS_BRANCH=master'
+  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
+  - 'HOME=/home/travis'
+
+- name: 'travis-ci'
+  args: ['bash', './.github/ci/script.sh']
+  env:
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'HOME=/home/travis'
+
+options:
+ logStreamingOption: STREAM_ON
