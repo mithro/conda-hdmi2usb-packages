@@ -46,6 +46,7 @@ env:
   - PACKAGE=tree-sitter-verilog
   - PACKAGE=slang               CONDA_CHANNELS="conda-forge"
   - PACKAGE=moore
+  - PACKAGE=sv-parser
   # protocol analyzers
   - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
 
