@@ -3,27 +3,60 @@ steps:
   args: ['build', '-f', '.github/ci/Dockerfile', '-t', 'travis-ci', '.']
 
 - name: 'travis-ci'
-  args: ['bash', './conda-get.sh', './env']
+  args: ['bash', './.github/cloudbuild.sh']
+  volumes:
+  - name: 'home'
+    path: '/home/travis'
+  env:
+  - 'HOME=/home/travis'
 
-#- name: 'travis-ci'
-#  args: ['bash', '-l', './.github/ci/fixup-git.sh']
-#  env:
-#  - 'TRAVIS_BUILD_DIR=/workspace'
+- name: 'travis-ci'
+  args: ['bash', '-l', './.github/ci/fixup-git.sh']
+  volumes:
+  - name: 'home'
+    path: '/home/travis'
+  env:
+  - 'HOME=/home/travis'
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
+  - 'TRAVIS_BRANCH=master'
+  - 'PACKAGE=none'
+
+- name: 'travis-ci'
+  args: ['bash', './conda-get.sh']
+  volumes:
+  - name: 'home'
+    path: '/home/travis'
+  env:
+  - 'HOME=/home/travis'
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
+  - 'TRAVIS_BRANCH=master'
+  - 'PACKAGE=none'
 
 - name: 'travis-ci'
   args: ['bash', './.github/ci/install.sh']
+  volumes:
+  - name: 'home'
+    path: '/home/travis'
   env:
-  - 'TRAVIS_BUILD_DIR=/workspace'
-  - 'TRAVIS_PULL_REQUEST=false'
-  - 'TRAVIS_BRANCH=master'
-  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
   - 'HOME=/home/travis'
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
+  - 'TRAVIS_BRANCH=master'
+  - 'PACKAGE=libusb'
 
 - name: 'travis-ci'
   args: ['bash', './.github/ci/script.sh']
+  volumes:
+  - name: 'home'
+    path: '/home/travis'
   env:
-  - 'TRAVIS_BUILD_DIR=/workspace'
   - 'HOME=/home/travis'
+  - 'TRAVIS_BUILD_DIR=/workspace'
+  - 'TRAVIS_REPO_SLUG=SymbiFlow/conda-packages'
+  - 'TRAVIS_BRANCH=master'
+  - 'PACKAGE=libusb'
 
 options:
  logStreamingOption: STREAM_ON

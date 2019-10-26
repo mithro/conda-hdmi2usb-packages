@@ -24,4 +24,5 @@ else
 	conda install -y conda-build
 fi
 conda install -y anaconda-client
+conda install -y conda-verify
 conda install -y jinja2

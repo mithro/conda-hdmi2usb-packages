@@ -6,7 +6,6 @@ set -e
 # Getting the conda environment
 start_section "environment.conda" "Setting up basic ${YELLOW}conda environment${NC}"
 
-mkdir -p $BASE_PATH
 ./conda-get.sh $CONDA_PATH
 hash -r
 conda config --set always_yes yes --set changeps1 no

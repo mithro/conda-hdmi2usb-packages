@@ -78,9 +78,7 @@ function end_section() {
 #     also set similarly at test time.
 export PYTHONWARNINGS=ignore::UserWarning:conda_build.environ
 
-export BASE_PATH="/tmp/really-really-really-really-really-really-really-really-really-really-really-really-really-long-path"
-export CONDA_PATH="$BASE_PATH/conda"
-mkdir -p "$BASE_PATH"
+export CONDA_PATH="$HOME/conda"
 export PATH="$CONDA_PATH/bin:$PATH"
 
 export GIT_SSL_NO_VERIFY=1

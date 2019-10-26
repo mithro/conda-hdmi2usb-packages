@@ -6,8 +6,10 @@ set -e
 # Git repo fixup
 start_section "environment.git" "Setting up ${YELLOW}git checkout${NC}"
 set -x
-git fetch --unshallow || true
-git fetch --tags
+git remote add ci https://github.com/$TRAVIS_REPO_SLUG.git || true
+git remote -v
+git fetch ci --unshallow || true
+git fetch ci --tags
 git submodule update --recursive --init
 git submodule foreach git submodule update --recursive --init
 $SPACER

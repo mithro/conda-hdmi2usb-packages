@@ -2,9 +2,8 @@
 
 set -x
 
-export HOME=/home/travis
-
 sudo chown -R travis:travis .
+sudo chown travis:travis $HOME
 
 #bundle exec .github/travis-expand.rb
 #
