@@ -12,7 +12,7 @@ export CXX=g++-8
 
 mkdir build && cd build
 
-cmake .. -DSLANG_INCLUDE_TESTS=OFF
+cmake .. -DSLANG_INCLUDE_TESTS=OFF -DCMAKE_BUILD_TYPE=Release
 
 make
 
