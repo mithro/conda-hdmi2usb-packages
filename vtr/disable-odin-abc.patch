@@ -1,21 +1,26 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index efa7f3fc5..57847f6a0 100644
+index 5231741d0..392ba56b2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -330,9 +330,9 @@ endif()
+@@ -336,14 +336,14 @@ endif()
+ 
+ 
  #Add the various sub-projects
- add_subdirectory(libs)
- add_subdirectory(vpr)
 -add_subdirectory(abc)
++#add_subdirectory(abc)
+ add_subdirectory(libs) #libs/CMakeLists.txt handles adding warnings flags to non-external libraries
+ 
+ #Add the various tools
+ add_compile_options(${WARN_FLAGS}) #Add warn flags for VTR tools
+ add_subdirectory(vpr)
 -add_subdirectory(ODIN_II)
 -add_subdirectory(ace2)
-+#add_subdirectory(abc)
 +#add_subdirectory(ODIN_II)
 +#add_subdirectory(ace2)
  add_subdirectory(utils)
  if(WITH_BLIFEXPLORER)
      add_subdirectory(blifexplorer)
-@@ -344,14 +344,14 @@ endif()
+@@ -355,14 +355,14 @@ endif()
  
  #Since ABC is an externally developed tool, we suppress all compiler warnings
  CHECK_CXX_COMPILER_FLAG("-w" CXX_COMPILER_SUPPORTS_-w)
@@ -36,7 +41,7 @@ index efa7f3fc5..57847f6a0 100644
  
  #PugiXml has some deliberate switch fallthrough cases (as indicated by comments), but they
  #are tagged as warnings with g++-7 (the comments don't match g++-7's suppression regexes).
-@@ -364,7 +364,7 @@ endif()
+@@ -375,7 +375,7 @@ endif()
  
  #We don't control the ABC cmake file, so we need to manually unset the IPO flags
  #to avoid cmake dev warnings due to it's old cmake version policy
