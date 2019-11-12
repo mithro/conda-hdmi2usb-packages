@@ -1,0 +1,24 @@
+package:
+  name: verible
+  version: {{ environ.get('DATE_STR') }}_{{ GIT_FULL_HASH }}
+
+source:
+  git_url: https://github.com/google/verible
+
+build:
+  number: {{ environ.get('DATE_NUM') }}
+  string: {{ environ.get('DATE_STR') }}
+  script_env:
+    - CI
+    - TRAVIS
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+
+about:
+  home: https://github.com/google/verible
+  license: Apache 2.0
+  license_file: LICENSE
+  summary: 'The main mission is to parse SystemVerilog (IEEE 1800-2017) for a wide variety of applications.'
