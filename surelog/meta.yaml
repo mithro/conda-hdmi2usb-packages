@@ -18,12 +18,15 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
+    - pkg-config
 
   host:
     - python {{ python }}
     - gperftools
     - tk
     - libunwind
+    - libuuid
+    - swig
     
   run:
     - python
