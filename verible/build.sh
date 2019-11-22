@@ -1,14 +1,11 @@
-#!/bin/bash
+#! /bin/bash
 
 set -e
 set -x
 
-add-apt-repository ppa:ubuntu-toolchain-r/test -y
-apt update
-apt install -y gcc-8 g++-8
+export CC=gcc-${USE_SYSTEM_GCC_VERSION}
+export CXX=g++-${USE_SYSTEM_GCC_VERSION}
 
-export CC=gcc-8
-export CXX=g++-8
 
 mkdir bazel-install
 BAZEL_PREFIX=$PWD/bazel-install

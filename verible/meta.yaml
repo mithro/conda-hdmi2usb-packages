@@ -1,16 +1,20 @@
+{% set version = '%s_%04i_%s'|format(GIT_DESCRIBE_TAG|replace('-v','.') or '0.X', GIT_DESCRIBE_NUMBER|int, GIT_DESCRIBE_HASH or 'gUNKNOWN') %}
 package:
   name: verible
-  version: {{ environ.get('DATE_STR') }}_{{ GIT_FULL_HASH }}
+  version: {{ version }}
 
 source:
   git_url: https://github.com/google/verible
 
 build:
+  # number: 201803050325
   number: {{ environ.get('DATE_NUM') }}
+  # string: 20180305_0325
   string: {{ environ.get('DATE_STR') }}
   script_env:
     - CI
     - TRAVIS
+    - USE_SYSTEM_GCC_VERSION
 
 requirements:
   build:

@@ -39,7 +39,7 @@ env:
   - PACKAGE=slang               CONDA_CHANNELS="conda-forge"    USE_SYSTEM_GCC_VERSION="8"
   - PACKAGE=moore
   - PACKAGE=sv-parser
-  - PACKAGE=verible
+  - PACKAGE=verible                                             USE_SYSTEM_GCC_VERSION="8"
   # protocol analyzers
   - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
 
