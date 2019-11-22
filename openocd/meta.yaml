@@ -32,6 +32,7 @@ requirements:
     - {{ compiler('cxx') }}
     - pkg-config
   host:
+    - pkg-config
     - libftdi
     - libusb
   run:
