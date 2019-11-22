@@ -12,6 +12,8 @@ fi
 mv tcl/target/1986ве1т.cfg tcl/target/1986be1t.cfg
 mv tcl/target/к1879xб1я.cfg tcl/target/k1879x61r.cfg
 
+export LIBS="$LIBS -lrt -lpthread"
+
 ./bootstrap
 mkdir build
 cd build
