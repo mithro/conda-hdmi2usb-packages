@@ -38,6 +38,7 @@ env:
   - PACKAGE=tree-sitter-verilog
   - PACKAGE=slang               CONDA_CHANNELS="conda-forge"    USE_SYSTEM_GCC_VERSION="8"
   - PACKAGE=moore
+  - PACKAGE=surelog             CONDA_CHANNELS="conda-forge"
   - PACKAGE=sv-parser
   - PACKAGE=verible                                             USE_SYSTEM_GCC_VERSION="8"
   # protocol analyzers
