@@ -5,11 +5,11 @@ index c43a9226..ebe0c086 100644
 @@ -1,8 +1,8 @@
  add_executable(driver driver/driver.cpp)
 -target_link_libraries(driver PRIVATE slang)
-+target_link_libraries(driver PRIVATE slang -static)
++target_link_libraries(driver PRIVATE slang -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive)
  
  add_executable(rewriter rewriter/rewriter.cpp)
 -target_link_libraries(rewriter PRIVATE slang)
-+target_link_libraries(rewriter PRIVATE slang -static)
++target_link_libraries(rewriter PRIVATE slang -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive)
  
  if(FUZZ_TARGET)
  	message("Tweaking driver for fuzz testing")
