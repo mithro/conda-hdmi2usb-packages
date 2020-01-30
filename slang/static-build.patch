@@ -1,15 +1,24 @@
 diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
-index c43a9226..ebe0c086 100644
+index 804d334e..45ba536e 100644
 --- a/tools/CMakeLists.txt
 +++ b/tools/CMakeLists.txt
-@@ -1,8 +1,8 @@
+@@ -1,15 +1,15 @@
  add_executable(driver driver/driver.cpp)
 -target_link_libraries(driver PRIVATE slang)
 +target_link_libraries(driver PRIVATE slang -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive)
+ target_link_libraries(driver PRIVATE CONAN_PKG::fmt)
+ set_target_properties(driver PROPERTIES OUTPUT_NAME "slang")
+ 
+ install(TARGETS driver RUNTIME DESTINATION bin)
  
  add_executable(rewriter rewriter/rewriter.cpp)
 -target_link_libraries(rewriter PRIVATE slang)
 +target_link_libraries(rewriter PRIVATE slang -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive)
+ target_link_libraries(rewriter PRIVATE CONAN_PKG::fmt)
  
  if(FUZZ_TARGET)
- 	message("Tweaking driver for fuzz testing")
+     message("Tweaking driver for fuzz testing")
+     target_compile_definitions(driver PRIVATE FUZZ_TARGET)
+-endif()
+\ No newline at end of file
++endif()

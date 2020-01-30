@@ -12,5 +12,5 @@ cmake .. -DSLANG_INCLUDE_TESTS=OFF -DCMAKE_BUILD_TYPE=Release
 
 make
 
-install -D bin/driver $PREFIX/bin/slang-driver
+install -D bin/slang $PREFIX/bin/slang-driver
 install -D bin/rewriter $PREFIX/bin/slang-rewriter
