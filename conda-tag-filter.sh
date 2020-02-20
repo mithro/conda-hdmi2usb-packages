@@ -8,9 +8,7 @@ TAG_PATTERN='^v[0-9]+\.[0-9]+(\.[0-9])?$'
 
 CONDA_GIT_URL=$(cat $PACKAGE/meta.yaml | grep "git_url" | awk '{print $2}')
 CONDA_GIT_DIR=$CONDA_PATH/conda-bld/git_cache/$(echo "$CONDA_GIT_URL" | grep -o '://.*' | cut -f3- -d/)
-echo "Conda git cache dir: '$CONDA_GIT_DIR'"
 if [ ! -d $CONDA_GIT_DIR ]; then
-	echo "URL='$CONDA_GIT_URL' DIR='$CONDA_GIT_DIR'"
 	git clone --bare "$CONDA_GIT_URL" $CONDA_GIT_DIR
 fi
 (
@@ -45,12 +43,11 @@ fi
 			echo
 		fi
 		git rev-parse HEAD > $GIT_DIR/TAG_FILTER
+
+		# List the remaining tags
+		echo "Remaining tags"
+		git tag --list | sort --version-sort | sed -e's/^/ * /'
+		echo
 	fi
-
-	# List the remaining tags
-	echo "Remaining tags"
-	git tag --list | sort --version-sort | sed -e's/^/ * /'
-	echo
-
 	echo "Git describe output: '$(git describe --tags)'"
 )
