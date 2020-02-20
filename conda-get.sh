@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 set -e
 
 CONDA_PATH=${1:-~/conda}
@@ -9,7 +8,7 @@ echo "Downloading Conda installer."
 wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod a+x Miniconda3-latest-Linux-x86_64.sh
 
-if [ ! -d $CONDA_PATH -o ! -z "$CI"  ]; then
+if [ ! -d $CONDA_PATH ]; then
 	echo "Installing conda"
         ./Miniconda3-latest-Linux-x86_64.sh -p $CONDA_PATH -b -f
 fi
@@ -37,7 +36,6 @@ patch_conda
 
 cat > $CONDA_PATH/condarc <<'EOF'
 # Useful for automation
-always_yes: True
 show_channel_urls: True
 
 # Prevent conda from automagically updating things
@@ -45,6 +43,18 @@ auto_update_conda: False
 update_dependencies: False
 # Don't complain
 notify_outdated_conda: false
+# Add channels
+channels:
+EOF
+CONDA_CHANNEL=$(echo $TRAVIS_REPO_SLUG | sed -e's@/.*$@@')
+if [ x$CONDA_CHANNEL != x ];then
+cat >> $CONDA_PATH/condarc <<EOF
+ - $CONDA_CHANNEL
+EOF
+fi
+cat >> $CONDA_PATH/condarc <<'EOF'
+ - symbiflow
+ - defaults
 EOF
 
 # Install required build tools

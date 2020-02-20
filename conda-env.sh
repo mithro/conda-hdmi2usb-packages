@@ -9,6 +9,10 @@ if [ ! -f $CONDA_PATH/bin/activate ];then
 	echo "conda's bin/activate not found in $CONDA_PATH"
 	exit 1
 fi
+if [ x$PACKAGE = x"" ]; then
+	echo "\$PACKAGE not set."
+	exit 1
+fi
 
 # Disable this warning;
 # xxxx/conda_build/environ.py:377: UserWarning: The environment variable
@@ -58,5 +62,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-./conda-meta-extra.sh
+export CONDARC=$CONDA_PATH/.condarc
+PACKAGE_ENV=$CONDA_PATH/envs/$PACKAGE
+if [ ! -d $PACKAGE_ENV ]; then
+	conda create --yes --name $PACKAGE --strict-channel-priority
+	ln -sf $(realpath $PACKAGE/condarc) $PACKAGE_ENV/condarc
+fi
+conda activate $PACKAGE
+./conda-meta-extra.sh $PACKAGE
 conda $@

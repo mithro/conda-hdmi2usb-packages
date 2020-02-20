@@ -1,7 +1,13 @@
 #!/bin/bash
-TOP=$(pwd)
 
-cat > recipe_append.yaml <<EOF
+PACKAGE=${1:-PACKAGE}
+if [ x$PACKAGE = x"" ]; then
+	echo "\$PACKAGE not set!"
+	exit 1
+fi
+
+rm -f $PACKAGE/recipe_append.yaml
+cat > $PACKAGE/recipe_append.yaml <<EOF
 extra:
   maintainers:
     - Tim 'mithro' Ansell <mithro@mithis.com>
@@ -17,10 +23,6 @@ extra:
     describe: $GITREV
     date:     $DATESTR
 EOF
-
-for meta in $(find -name meta.yaml); do
-	(
-		cd $(dirname $meta);
-		ln -sf $(python3 -c "import os.path; print(os.path.relpath('$TOP/recipe_append.yaml'))") recipe_append.yaml
-	)
-done
+if [ -e $PACKAGE/condarc ]; then
+	cat $PACKAGE/condarc | sed -e's/^/  /' >> $PACKAGE/recipe_append.yaml
+fi
