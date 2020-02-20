@@ -6,7 +6,7 @@ package:
 
 source:
   git_rev: master
-  git_url: git://repo.or.cz/openocd.git
+  git_url: http://git.code.sf.net/p/openocd/code
   patches:
     - digilent-arty.patch
     - digilent-cmod-a7.patch
