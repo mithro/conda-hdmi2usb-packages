@@ -70,4 +70,5 @@ if [ ! -d $PACKAGE_ENV ]; then
 fi
 conda activate $PACKAGE
 ./conda-meta-extra.sh $PACKAGE
+./conda-tag-filter.sh $PACKAGE
 conda $@
