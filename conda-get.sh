@@ -15,6 +15,39 @@ if [ ! -d $CONDA_PATH -o ! -z "$CI"  ]; then
 fi
 export PATH=$CONDA_PATH/bin:$PATH
 
-# Updating conda
-conda update -y conda setuptools
+function patch_conda() {
+	# Patch conda to prevent a users ~/.condarc from infecting the build
+	for F in $CONDA_PATH/lib/python3.*/site-packages/conda/common/configuration.py; do
+		if grep -q "# FIXME: Patched conda" $F; then
+			echo "Already patched $F"
+		else
+			echo "Patching $F"
+			cat >> $F <<'EOF'
+
+# FIXME: Patched conda
+_load_file_configs = load_file_configs
+def load_file_configs(search_path):
+    return _load_file_configs([p for p in search_path if p.startswith('$CONDA_')])
+EOF
+		fi
+	done
+}
+
+patch_conda
+
+cat > $CONDA_PATH/condarc <<'EOF'
+# Useful for automation
+always_yes: True
+show_channel_urls: True
+
+# Prevent conda from automagically updating things
+auto_update_conda: False
+update_dependencies: False
+# Don't complain
+notify_outdated_conda: false
+EOF
+
+# Install required build tools
 conda install -y conda-build anaconda-client jinja2 conda-verify ripgrep
+
+conda info | grep --color=always -e "^" -e "populated config files"
