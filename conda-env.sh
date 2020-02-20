@@ -35,16 +35,16 @@ fi
 export TRAVIS=0
 export CI=0
 
-export TRAVIS_EVENT_TYPE="local"
+export TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE:-"local"}
 echo "TRAVIS_EVENT_TYPE='${TRAVIS_EVENT_TYPE}'"
 
-export TRAVIS_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+export TRAVIS_BRANCH="${TRAVIS_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
 echo "TRAVIS_BRANCH='${TRAVIS_BRANCH}'"
 
-export TRAVIS_COMMIT="$(git rev-parse HEAD)"
+export TRAVIS_COMMIT="${TRAVIS_BRANCH:-$(git rev-parse HEAD)}"
 echo "TRAVIS_COMMIT='${TRAVIS_COMMIT}'"
 
-export TRAVIS_REPO_SLUG="$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"
+export TRAVIS_REPO_SLUG="${TRAVIS_REPO_SLUG:-$(git remote get-url origin | sed -e's-.*github\.com/--' -e's/\.git//')}"
 echo "TRAVIS_REPO_SLUG='${TRAVIS_REPO_SLUG}'"
 
 # >>> conda initialize >>>
