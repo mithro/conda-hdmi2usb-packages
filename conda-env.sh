@@ -1,5 +1,16 @@
 #!/bin/bash
 
+export CONDA_PATH=${CONDA_PATH:-~/conda}
+if [ ! -d $CONDA_PATH ];then
+	echo "Conda not found at $CONDA_PATH"
+	exit 1
+fi
+if [ ! -f $CONDA_PATH/bin/activate ];then
+	echo "conda's bin/activate not found in $CONDA_PATH"
+	exit 1
+fi
+export PATH=$CONDA_PATH/bin:$PATH
+
 # Disable this warning;
 # xxxx/conda_build/environ.py:377: UserWarning: The environment variable
 #     'TRAVIS' is being passed through with value 0.  If you are splitting
