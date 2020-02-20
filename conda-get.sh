@@ -44,6 +44,7 @@ update_dependencies: False
 # Don't complain
 notify_outdated_conda: false
 # Add channels
+channel_priority: strict
 channels:
 EOF
 CONDA_CHANNEL=$(echo $TRAVIS_REPO_SLUG | sed -e's@/.*$@@')
