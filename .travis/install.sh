@@ -43,5 +43,5 @@ end_section "conda.copy"
 $SPACER
 
 start_section "conda.download" "${GREEN}Downloading..${NC}"
-travis_wait ./conda-env.sh build --source $CONDA_BUILD_ARGS || true
+./conda-env.sh build --source $CONDA_BUILD_ARGS || true
 end_section "conda.download"
