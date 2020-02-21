@@ -19,7 +19,7 @@ install:
  - ./.travis/install.sh
 
 env:
-  - PACKAGE=vtr                 CONDA_CHANNELS="pkgw-forge,conda-forge"
+  - PACKAGE=vtr
   - PACKAGE=libxml2
   - PACKAGE=libusb
   - PACKAGE=yosys
@@ -31,18 +31,18 @@ env:
   - PACKAGE=icestorm
   - PACKAGE=iverilog
   - PACKAGE=verilator
-  - PACKAGE=netlistsvg          CONDA_CHANNELS="conda-forge"
+  - PACKAGE=netlistsvg
   # SystemVerilog tools
-  - PACKAGE=zachjs-sv2v         CONDA_CHANNELS="conda-forge"
-  - PACKAGE=odin_II             CONDA_CHANNELS="pkgw-forge,conda-forge"
+  - PACKAGE=zachjs-sv2v
+  - PACKAGE=odin_II
   - PACKAGE=tree-sitter-verilog
-  - PACKAGE=slang               CONDA_CHANNELS="conda-forge"    USE_SYSTEM_GCC_VERSION="8"
+  - PACKAGE=slang               USE_SYSTEM_GCC_VERSION="8"
   - PACKAGE=moore
-  - PACKAGE=surelog             CONDA_CHANNELS="conda-forge"
+  - PACKAGE=surelog
   - PACKAGE=sv-parser
-  - PACKAGE=verible                                             USE_SYSTEM_GCC_VERSION="8"
+  - PACKAGE=verible             USE_SYSTEM_GCC_VERSION="8"
   # protocol analyzers
-  - PACKAGE=sigrok-cli          CONDA_CHANNELS="conda-forge"
+  - PACKAGE=sigrok-cli
   - PACKAGE=yosys-plugins
 
 script:

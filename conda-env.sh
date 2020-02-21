@@ -1,5 +1,19 @@
 #!/bin/bash
 
+export CONDA_PATH=${CONDA_PATH:-~/conda}
+if [ ! -d $CONDA_PATH ];then
+	echo "Conda not found at $CONDA_PATH"
+	exit 1
+fi
+if [ ! -f $CONDA_PATH/bin/activate ];then
+	echo "conda's bin/activate not found in $CONDA_PATH"
+	exit 1
+fi
+if [ x$PACKAGE = x"" ]; then
+	echo "\$PACKAGE not set."
+	exit 1
+fi
+
 # Disable this warning;
 # xxxx/conda_build/environ.py:377: UserWarning: The environment variable
 #     'TRAVIS' is being passed through with value 0.  If you are splitting
@@ -21,17 +35,40 @@ fi
 export TRAVIS=0
 export CI=0
 
-export TRAVIS_EVENT_TYPE="local"
+export TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE:-"local"}
 echo "TRAVIS_EVENT_TYPE='${TRAVIS_EVENT_TYPE}'"
 
-export TRAVIS_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+export TRAVIS_BRANCH="${TRAVIS_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
 echo "TRAVIS_BRANCH='${TRAVIS_BRANCH}'"
 
-export TRAVIS_COMMIT="$(git rev-parse HEAD)"
+export TRAVIS_COMMIT="${TRAVIS_BRANCH:-$(git rev-parse HEAD)}"
 echo "TRAVIS_COMMIT='${TRAVIS_COMMIT}'"
 
-export TRAVIS_REPO_SLUG="$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"
+export TRAVIS_REPO_SLUG="${TRAVIS_REPO_SLUG:-$(git remote get-url origin | sed -e's-.*github\.com/--' -e's/\.git//')}"
 echo "TRAVIS_REPO_SLUG='${TRAVIS_REPO_SLUG}'"
 
-./conda-meta-extra.sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$("$CONDA_PATH/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$CONDA_PATH/etc/profile.d/conda.sh" ]; then
+        . "$CONDA_PATH/etc/profile.d/conda.sh"
+    else
+        export PATH="$CONDA_PATH/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export CONDARC=$CONDA_PATH/.condarc
+PACKAGE_ENV=$CONDA_PATH/envs/$PACKAGE
+if [ ! -d $PACKAGE_ENV ]; then
+	conda create --yes --name $PACKAGE --strict-channel-priority
+	ln -sf $(realpath $PACKAGE/condarc) $PACKAGE_ENV/condarc
+fi
+conda activate $PACKAGE
+./conda-meta-extra.sh $PACKAGE
+./conda-tag-filter.sh $PACKAGE
 conda $@
