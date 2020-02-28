@@ -10,7 +10,7 @@ fi
 mkdir build && cd build
 
 # TODO(hzeller): even though gperftools are installed, -ltcmalloc is not found.
-LDFLAGS="-lrt" cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_VERBOSE_MAKEFILE=1 -DNO_TCMALLOC=ON
+LDFLAGS="-lrt" cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_VERBOSE_MAKEFILE=1
 
 make -j$CPU_COUNT install
 
