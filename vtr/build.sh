@@ -33,7 +33,13 @@ env
 export M4=${PREFIX}/bin/m4
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
+# ODIN and ABC are disabled to keep build time less than Travis CI timeout.
+cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DWITH_ODIN=OFF \
+    -DWITH_ABC=OFF \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    ..
 grep -i flags CMakeCache.txt
 make -k -j$CPU_COUNT || make VERBOSE=1
 make test
