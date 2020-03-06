@@ -4,6 +4,7 @@ set -e
 
 PACKAGE=${1:-PACKAGE}
 
+TAG_EXTRACT='[0-9]+\.[0-9]+(\.[0-9])?$'
 TAG_PATTERN='^v[0-9]+\.[0-9]+(\.[0-9])?$'
 
 CONDA_GIT_URL=$(cat $PACKAGE/meta.yaml | grep "git_url" | awk '{print $2}')
@@ -16,9 +17,14 @@ fi
 
 	CURRENT_HEAD=$(git rev-parse HEAD)
 	LAST_HEAD=$(cat $GIT_DIR/TAG_FILTER 2> /dev/null || true)
-	if [ g"$LAST_HEAD" != g"$CURRENT_HEAD" ]; then
+	if [ g"$LAST_HEAD" != g"$CURRENT_HEAD" -o 1 -eq 1 ]; then
 		# Disable automatic fetching of tags
 		git config remote.origin.tagOpt --no-tags
+
+		# Remove all tags
+		for TAG in $(git tag --list); do
+			git tag -d $TAG > /dev/null
+		done
 
 		# Manually fetch the tags
 		echo "Fetching tags.."
@@ -29,8 +35,24 @@ fi
 		git tag --list | sort --version-sort | grep --color=always -e "^" -e $TAG_PATTERN | sed -e's/^/ * /'
 		echo
 
+		# Rewrite non-standard tags
+		for TAG in $(git tag --list | sort --version-sort | grep -P "$TAG_EXTRACT"); do
+			TAG_VALUE=v$(echo $TAG | grep -o -P "$TAG_EXTRACT")
+			if [ "$TAG" = "$TAG_VALUE" ]; then
+				continue
+			fi
+			TAG_HASH=$(git rev-parse $TAG^{})
+			if [ "$(git rev-parse $TAG_VALUE^{} 2> /dev/null)" != "$TAG_HASH" ]; then
+				git tag -d $TAG_VALUE 2> /dev/null || true
+				git tag -m"From tag $TAG" -a $TAG_VALUE $TAG_HASH
+			fi
+
+			echo "Extract? $TAG -> $TAG_VALUE ($TAG_HASH)"
+		done
+		echo
+
 		# Remove all the non-version tags
-		for TAG in $(git tag --list | sort --version-sort | grep -P -v $TAG_PATTERN); do
+		for TAG in $(git tag --list | sort --version-sort | grep -P -v "$TAG_PATTERN"); do
 			git tag -d $TAG
 		done
 		echo
