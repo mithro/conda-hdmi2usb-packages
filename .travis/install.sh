@@ -21,15 +21,15 @@ $SPACER
 
 # Output some useful info
 start_section "info.conda.env" "Info on ${YELLOW}conda environment${NC}"
-./conda-env.sh info
+$TRAVIS_BUILD_DIR/conda-env.sh info
 end_section "info.conda.env"
 
 start_section "info.conda.config" "Info on ${YELLOW}conda config${NC}"
-./conda-env.sh config --show
+$TRAVIS_BUILD_DIR/conda-env.sh config --show
 end_section "info.conda.config"
 
 start_section "info.conda.package" "Info on ${YELLOW}conda package${NC}"
-./conda-env.sh render --no-source $CONDA_BUILD_ARGS || true
+$TRAVIS_BUILD_DIR/conda-env.sh render --no-source $CONDA_BUILD_ARGS || true
 end_section "info.conda.package"
 
 $SPACER
@@ -44,5 +44,5 @@ end_section "conda.copy"
 $SPACER
 
 start_section "conda.download" "${GREEN}Downloading..${NC}"
-./conda-env.sh build --source $CONDA_BUILD_ARGS || true
+$TRAVIS_BUILD_DIR/conda-env.sh build --source $CONDA_BUILD_ARGS || true
 end_section "conda.download"

@@ -6,25 +6,25 @@ set -e
 $SPACER
 
 start_section "info.conda.package" "Info on ${YELLOW}conda package${NC}"
-./conda-env.sh render $CONDA_BUILD_ARGS
+$TRAVIS_BUILD_DIR/conda-env.sh render $CONDA_BUILD_ARGS
 end_section "info.conda.package"
 
 $SPACER
 
 start_section "conda.check" "${GREEN}Checking...${NC}"
-./conda-env.sh build --check $CONDA_BUILD_ARGS || true
+$TRAVIS_BUILD_DIR/conda-env.sh build --check $CONDA_BUILD_ARGS || true
 end_section "conda.check"
 
 $SPACER
 
 start_section "conda.build" "${GREEN}Building..${NC}"
-$CONDA_PATH/bin/python $TRAVIS_BUILD_DIR/.travis-output.py /tmp/output.log ./conda-env.sh build $CONDA_BUILD_ARGS
+$CONDA_PATH/bin/python $TRAVIS_BUILD_DIR/.travis-output.py /tmp/output.log $TRAVIS_BUILD_DIR/conda-env.sh build $CONDA_BUILD_ARGS
 end_section "conda.build"
 
 $SPACER
 
 start_section "conda.build" "${GREEN}Installing..${NC}"
-./conda-env.sh install $CONDA_OUT
+$TRAVIS_BUILD_DIR/conda-env.sh install $CONDA_OUT
 end_section "conda.build"
 
 $SPACER
