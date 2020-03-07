@@ -7,7 +7,7 @@ PACKAGE=${1:-PACKAGE}
 TAG_EXTRACT='[0-9]+[_.][0-9]+([_.][0-9])?([._\-]rc[0-9]+)?([_\-][0-9]+[_\-]g[0-9a-fA-F]+)?$'
 TAG_PATTERN='^v[0-9]+\.[0-9]+(\.[0-9]+|\.rc[0-9]+)*$'
 
-CONDA_GIT_URL=$(cat $PACKAGE/meta.yaml | grep "git_url" | awk '{print $2}')
+CONDA_GIT_URL=$(cat $PACKAGE/meta.yaml | grep "git_url" | head -1 | sed -e's/.* //')
 CONDA_GIT_DIR=$CONDA_PATH/conda-bld/git_cache/$(echo "$CONDA_GIT_URL" | grep -o '://.*' | cut -f3- -d/)
 if [ ! -d $CONDA_GIT_DIR ]; then
 	git clone --bare "$CONDA_GIT_URL" $CONDA_GIT_DIR
