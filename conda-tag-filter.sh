@@ -4,8 +4,8 @@ set -e
 
 PACKAGE=${1:-PACKAGE}
 
-TAG_EXTRACT='[0-9]+\.[0-9]+(\.[0-9])?$'
-TAG_PATTERN='^v[0-9]+\.[0-9]+(\.[0-9])?$'
+TAG_EXTRACT='[0-9]+[_.][0-9]+([_.][0-9])?([._\-]rc[0-9]+)?([_\-][0-9]+[_\-]g[0-9a-fA-F]+)?$'
+TAG_PATTERN='^v[0-9]+\.[0-9]+(\.[0-9]+|\.rc[0-9]+)*$'
 
 CONDA_GIT_URL=$(cat $PACKAGE/meta.yaml | grep "git_url" | awk '{print $2}')
 CONDA_GIT_DIR=$CONDA_PATH/conda-bld/git_cache/$(echo "$CONDA_GIT_URL" | grep -o '://.*' | cut -f3- -d/)
@@ -37,19 +37,32 @@ fi
 
 		# Rewrite non-standard tags
 		for TAG in $(git tag --list | sort --version-sort | grep -P "$TAG_EXTRACT"); do
-			TAG_VALUE=v$(echo $TAG | grep -o -P "$TAG_EXTRACT")
+			TAG_VALUE=v$(echo $TAG | grep -o -P "$TAG_EXTRACT" | sed -e's/[_\-]g[0-9a-fA-F]\+//' -e's/-/./g' -e's/_/./g')
 			if [ "$TAG" = "$TAG_VALUE" ]; then
 				continue
 			fi
-			TAG_HASH=$(git rev-parse $TAG^{})
-			if [ "$(git rev-parse $TAG_VALUE^{} 2> /dev/null)" != "$TAG_HASH" ]; then
-				git tag -d $TAG_VALUE 2> /dev/null || true
+			TAG_HASH="$(git rev-parse $TAG^{})"
+			TAG_VALUE_HASH="$(git rev-parse $TAG_VALUE^{} 2> /dev/null || true)"
+			if [ "$TAG_VALUE_HASH" = "$TAG_VALUE^{}" ]; then
 				git tag -m"From tag $TAG" -a $TAG_VALUE $TAG_HASH
+				echo "New extracted tag - $TAG -> $TAG_VALUE ($TAG_HASH)"
+			elif [ "$TAG_VALUE_HASH" != "$TAG_HASH" ]; then
+				git tag -d $TAG_VALUE
+				git tag -m"From tag $TAG" -a $TAG_VALUE $TAG_HASH
+				echo "Updated extracted tag - $TAG -> $TAG_VALUE ($TAG_HASH)"
+			else
+				echo "Existing extracted tag - $TAG -> $TAG_VALUE ($TAG_HASH)"
 			fi
-
-			echo "Extract? $TAG -> $TAG_VALUE ($TAG_HASH)"
 		done
 		echo
+
+		if [ -e $PACKAGE/extra.tags ]; then
+			cat $PACKAGE/extra.tags | while read TAG TAG_HASH; do
+				git tag -m"Extra tag" -a $TAG $TAG_HASH
+				echo "Extra tag added - $TAG ($TAG_HASH)"
+			done
+			echo
+		fi
 
 		# Remove all the non-version tags
 		for TAG in $(git tag --list | sort --version-sort | grep -P -v "$TAG_PATTERN"); do
