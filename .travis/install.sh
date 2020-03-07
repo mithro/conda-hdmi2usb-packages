@@ -38,6 +38,7 @@ start_section "conda.copy" "${GREEN}Copying package...${NC}"
 mkdir -p /tmp/conda/$PACKAGE
 cp -vRL $PACKAGE/* /tmp/conda/$PACKAGE/
 cd /tmp/conda/
+sed -e"s@git_url:.*://@$CONDA_PATH/conda-bld/git_cache/@" -i /tmp/conda/$PACKAGE/meta.yaml
 end_section "conda.copy"
 
 $SPACER
